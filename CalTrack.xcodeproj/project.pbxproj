@@ -15,6 +15,13 @@
 		8622732D2B7C3F0700A8ED16 /* EntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622732C2B7C3F0700A8ED16 /* EntryModel.swift */; };
 		862273302B7C408300A8ED16 /* TrackerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622732F2B7C408300A8ED16 /* TrackerViewModel.swift */; };
 		862273322B7C40BC00A8ED16 /* TrackerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862273312B7C40BC00A8ED16 /* TrackerModel.swift */; };
+		862273352B7D5B2800A8ED16 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862273342B7D5B2800A8ED16 /* MainView.swift */; };
+		862273372B7D5FFD00A8ED16 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862273362B7D5FFD00A8ED16 /* AppColors.swift */; };
+		8622733D2B7D649000A8ED16 /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622733C2B7D649000A8ED16 /* ProgressBarView.swift */; };
+		86B01FD52B8011FA00921508 /* EntryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B01FD42B8011FA00921508 /* EntryListViewModel.swift */; };
+		86B01FD72B802DB300921508 /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B01FD62B802DB300921508 /* EntryViewModel.swift */; };
+		86B01FD92B80304E00921508 /* EntryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B01FD82B80304E00921508 /* EntryListView.swift */; };
+		86B01FDB2B80305A00921508 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B01FDA2B80305A00921508 /* EntryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +34,13 @@
 		8622732C2B7C3F0700A8ED16 /* EntryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryModel.swift; sourceTree = "<group>"; };
 		8622732F2B7C408300A8ED16 /* TrackerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerViewModel.swift; sourceTree = "<group>"; };
 		862273312B7C40BC00A8ED16 /* TrackerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerModel.swift; sourceTree = "<group>"; };
+		862273342B7D5B2800A8ED16 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		862273362B7D5FFD00A8ED16 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		8622733C2B7D649000A8ED16 /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
+		86B01FD42B8011FA00921508 /* EntryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryListViewModel.swift; sourceTree = "<group>"; };
+		86B01FD62B802DB300921508 /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
+		86B01FD82B80304E00921508 /* EntryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryListView.swift; sourceTree = "<group>"; };
+		86B01FDA2B80305A00921508 /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +73,7 @@
 		862273182B7C0D2700A8ED16 /* CalTrack */ = {
 			isa = PBXGroup;
 			children = (
+				862273332B7D5B1400A8ED16 /* Views */,
 				862273272B7C0F7B00A8ED16 /* Models */,
 				8622732E2B7C404A00A8ED16 /* ViewModels */,
 				862273192B7C0D2700A8ED16 /* CalTrackApp.swift */,
@@ -83,6 +98,7 @@
 				862273312B7C40BC00A8ED16 /* TrackerModel.swift */,
 				8622732A2B7C3E5F00A8ED16 /* EntryListModel.swift */,
 				8622732C2B7C3F0700A8ED16 /* EntryModel.swift */,
+				862273362B7D5FFD00A8ED16 /* AppColors.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -91,8 +107,21 @@
 			isa = PBXGroup;
 			children = (
 				8622732F2B7C408300A8ED16 /* TrackerViewModel.swift */,
+				86B01FD42B8011FA00921508 /* EntryListViewModel.swift */,
+				86B01FD62B802DB300921508 /* EntryViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		862273332B7D5B1400A8ED16 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				862273342B7D5B2800A8ED16 /* MainView.swift */,
+				8622733C2B7D649000A8ED16 /* ProgressBarView.swift */,
+				86B01FD82B80304E00921508 /* EntryListView.swift */,
+				86B01FDA2B80305A00921508 /* EntryView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,11 +195,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				8622731C2B7C0D2700A8ED16 /* ContentView.swift in Sources */,
+				862273352B7D5B2800A8ED16 /* MainView.swift in Sources */,
+				86B01FDB2B80305A00921508 /* EntryView.swift in Sources */,
 				8622732B2B7C3E5F00A8ED16 /* EntryListModel.swift in Sources */,
+				86B01FD52B8011FA00921508 /* EntryListViewModel.swift in Sources */,
 				8622731A2B7C0D2700A8ED16 /* CalTrackApp.swift in Sources */,
+				86B01FD72B802DB300921508 /* EntryViewModel.swift in Sources */,
 				8622732D2B7C3F0700A8ED16 /* EntryModel.swift in Sources */,
+				862273372B7D5FFD00A8ED16 /* AppColors.swift in Sources */,
+				86B01FD92B80304E00921508 /* EntryListView.swift in Sources */,
 				862273302B7C408300A8ED16 /* TrackerViewModel.swift in Sources */,
 				862273322B7C40BC00A8ED16 /* TrackerModel.swift in Sources */,
+				8622733D2B7D649000A8ED16 /* ProgressBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

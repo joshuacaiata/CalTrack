@@ -11,7 +11,7 @@ struct Tracker {
     let targetCalories: Int = 2250
     var entries: EntryList
     
-    init(entries: EntryList = EntryList(entries: [])) {
+    init(entries: EntryList = EntryList(entries: [Entry(name: "Apple", consume: true, kcalCount: 300)])) {
         self.entries = entries
     }
     
@@ -41,6 +41,10 @@ struct Tracker {
     
     var net: Int {
         return targetCalories + burnedCalories - consumedCalories
+    }
+    
+    var percentComplete: Float {
+        return Float(consumedCalories) / (Float(targetCalories) + Float(burnedCalories))
     }
     
 }

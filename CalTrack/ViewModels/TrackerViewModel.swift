@@ -21,4 +21,9 @@ class TrackerViewModel: ObservableObject {
     var net: Int {
         info.net
     }
+    
+    var percentComplete: Float {
+        info.percentComplete
+    }
+    
 }
