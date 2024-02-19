@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct EntryListView: View {
+    @ObservedObject var viewModel: EntryListViewModel
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView{
+            VStack{
+                ForEach(viewModel.entries, id: \.self) { entry in
+                    EntryView(viewModel: entry)
+                }
+            }
+        }
+        .padding(.bottom, 30)
     }
 }
 
 #Preview {
-    EntryListView()
+    EntryListView(viewModel: EntryListViewModel())
 }

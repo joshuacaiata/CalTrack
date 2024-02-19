@@ -9,43 +9,33 @@ import SwiftUI
 import Foundation
 
 struct MainView: View {
-    @ObservedObject var viewModel: TrackerViewModel
-    
-    var formattedCurrentDate: String {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "EEEE, MMMM dd, yyyy"
-            return dateFormatter.string(from: Date())
-        }
+    @State private var showingPopup = false
     
     var body: some View {
         VStack {
-            VStack {
-                VStack{
-                    Text("\(formattedCurrentDate)")
-                        .padding(.all, 10)
-                    ZStack{
-                        ProgressBarView(viewModel: TrackerViewModel())
-                            .frame(width: 200, height: 200)
-                        VStack{
-                            Text("\(viewModel.net)")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                            Text("kcal remaining")
-                        }
-                    }
-                }
-                .padding(.vertical, 25)
-                .padding(.horizontal, 70)
-            }
-            .background(AppColors.CalTrackLightBlue)
-            .cornerRadius(15)
-            .padding(.top, 25)
+            SummaryView(viewModel: TrackerViewModel())
+            
+            EntryListView(viewModel: EntryListViewModel())
             
             Spacer()
+            
+            Button(action: {
+                showingPopup = true
+            }) {
+                Image(systemName: "plus")
+                                .font(.largeTitle)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Circle().fill(AppColors.CalTrackNegative))
+            }
+            
+        }
+        .sheet(isPresented: $showingPopup) {
+            AddEntryView()
         }
     }
 }
 
 #Preview {
-    MainView(viewModel: TrackerViewModel())
+    MainView()
 }

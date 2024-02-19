@@ -11,7 +11,7 @@ import SwiftUI
 struct CalTrackApp: App {
     var body: some Scene {
         WindowGroup {
-            MainView(viewModel: TrackerViewModel())
+            MainView()
         }
     }
 }

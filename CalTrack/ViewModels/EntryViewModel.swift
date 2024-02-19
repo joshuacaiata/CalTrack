@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class EntryViewModel: ObservableObject {
+class EntryViewModel: ObservableObject, Hashable {
     @Published var info: Entry
     
     var name: String {
@@ -26,7 +26,17 @@ class EntryViewModel: ObservableObject {
             consume ? AppColors.CalTrackNegative : AppColors.CalTrackPositive
     }
     
+    
     init(name: String, consume: Bool, kcalCount: Int) {
-        self.info = Entry(name: name, consume: consume, kcalCount: kcalCount)
+            self.info = Entry(name: name, consume: consume, kcalCount: kcalCount)
+    }
+     
+    
+    static func == (lhs: EntryViewModel, rhs: EntryViewModel) -> Bool {
+        lhs.info == rhs.info
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(info)
     }
 }

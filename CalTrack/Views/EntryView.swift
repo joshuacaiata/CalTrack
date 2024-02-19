@@ -30,7 +30,7 @@ struct EntryView: View {
         }
         .border(AppColors.CalTrackStroke, width: 2)
         .cornerRadius(4)
-        .padding(.horizontal, 50.0)
+        .padding(.horizontal, 30.0)
     }
 }
 
