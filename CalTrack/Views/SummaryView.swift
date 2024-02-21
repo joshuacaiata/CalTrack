@@ -23,7 +23,7 @@ struct SummaryView: View {
                 Text("\(formattedCurrentDate)")
                     .padding(.all, 10)
                 ZStack{
-                    ProgressBarView(viewModel: TrackerViewModel())
+                    ProgressBarView(viewModel: viewModel)
                         .frame(width: 200, height: 200)
                     VStack{
                         Text("\(viewModel.net)")
@@ -46,5 +46,5 @@ struct SummaryView: View {
 }
 
 #Preview {
-    SummaryView(viewModel: TrackerViewModel())
+    SummaryView(viewModel: TrackerViewModel(entryList: EntryListViewModel()))
 }

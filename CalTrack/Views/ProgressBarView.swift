@@ -27,5 +27,5 @@ struct ProgressBarView: View {
 }
 
 #Preview {
-    ProgressBarView(viewModel: TrackerViewModel())
+    ProgressBarView(viewModel: TrackerViewModel(entryList: EntryListViewModel()))
 }

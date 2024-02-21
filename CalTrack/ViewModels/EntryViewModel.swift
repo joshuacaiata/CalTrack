@@ -26,11 +26,9 @@ class EntryViewModel: ObservableObject, Hashable {
             consume ? AppColors.CalTrackNegative : AppColors.CalTrackPositive
     }
     
-    
     init(name: String, consume: Bool, kcalCount: Int) {
             self.info = Entry(name: name, consume: consume, kcalCount: kcalCount)
     }
-     
     
     static func == (lhs: EntryViewModel, rhs: EntryViewModel) -> Bool {
         lhs.info == rhs.info

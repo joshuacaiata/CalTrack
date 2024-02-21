@@ -8,34 +8,60 @@
 import SwiftUI
 
 struct AddEntryView: View {
+    @ObservedObject var viewModel: EntryListViewModel
+    
     enum Selection {
         case food, activity
     }
     
+    @Binding var showingPopup: Bool
+    
     @State private var selection: Selection = .food
-    @State private var text: String = ""
-    @State private var isEditing: Bool = false
+    
+    @State private var entryText: String = ""
+    @State private var kcalText: String = ""
+    
+    @State private var entryName: String = ""
+    @State private var kcalCount: String = ""
+    
+    func addEntry() {
+        let consume = selection == .food
+        let kcalCount = Int(kcalText) ?? 0
+        
+        let newEntry = Entry(name: entryText, consume: consume, kcalCount: kcalCount)
+        let newEntryViewModel = EntryViewModel(name: newEntry.name, consume: newEntry.consume, kcalCount: newEntry.kcalCount)
+        
+        viewModel.addEntry(entry: newEntryViewModel)
+    }
     
     var body: some View {
         VStack {
             HStack {
-                Button("Food") {
+                Button(action: {
                     selection = .food
+                }) {
+                    Text("Food")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .contentShape(Rectangle())
                 }
-                .frame(maxWidth: .infinity)
                 .foregroundColor(.black)
-                .padding()
-                .background(selection == .food ? AppColors.CalTrackLightBlue: Color.white)
+                .background(selection == .food ? AppColors.CalTrackLightBlue : Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
-                .overlay(RoundedRectangle(cornerRadius: 8)
-                    .stroke(selection == .food ? AppColors.CalTrackLightBlue : AppColors.CalTrackStroke, lineWidth: 2))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(selection == .food ? AppColors.CalTrackLightBlue : AppColors.CalTrackStroke, lineWidth: 2)
+                )
                 
-                Button("Activity") {
+                Button(action : {
                     selection = .activity
+                }) {
+                    Text("Activity")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .contentShape(Rectangle())
                 }
-                .frame(maxWidth: .infinity)
                 .foregroundColor(.black)
-                .padding()
                 .background(selection == .activity ? AppColors.CalTrackLightBlue : Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .overlay(
@@ -48,35 +74,57 @@ struct AddEntryView: View {
             HStack{
                 Spacer()
                 
-                if isEditing {
-                    TextField("Entry name", text: $text, onCommit: {
-                        isEditing = false
-                    })
+                TextField("Entry Name", text: $entryText)
                     .font(.title3)
                     .padding()
-                    .onTapGesture {
-                        isEditing = true
+                    .onChange(of: entryText) { oldValue, newValue in
+                        entryName = newValue
                     }
-                } else {
-                    Text(text)
-                        .font(.title3)
-                        .padding()
-                        .onTapGesture {
-                            isEditing = true
-                        }
-                }
+                    
+               
                 Spacer()
             }
             .border(AppColors.CalTrackStroke)
             .padding(.horizontal, 30)
             .padding(.top, 20)
-            .onTapGesture {
-                isEditing = true
+            
+            HStack{
+                Spacer()
+                
+                TextField("Calorie count", text: $kcalText)
+                    .font(.title3)
+                    .padding()
+                    .keyboardType(.numberPad)
+                    .onChange(of: kcalText) { oldValue, newValue in
+                        kcalCount = newValue
+                    }
+                    
+               
+                Spacer()
             }
+            .border(AppColors.CalTrackStroke)
+            .padding(.horizontal, 30)
+            .padding(.top, 20)
+            
+            Button(action: {
+                addEntry()
+                showingPopup = false
+            }) {
+                Text("Confirm")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+            }
+            .foregroundColor(.black)
+            .background(AppColors.CalTrackLightBlue)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .padding(.horizontal, 30)
+            .padding(.top, 20)
+            
+            
         }
     }
 }
 
 #Preview {
-    AddEntryView()
+    AddEntryView(viewModel: EntryListViewModel(), showingPopup: .constant(true))
 }

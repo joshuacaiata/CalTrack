@@ -6,24 +6,59 @@
 //
 
 import Foundation
+import SwiftUI
+import Combine
 
 class TrackerViewModel: ObservableObject {
-    @Published var info = Tracker()
+    var entryList: EntryListViewModel
+    
+    private var cancellables = Set<AnyCancellable>()
+        
+    var target = 2250
+    
+    init(entryList: EntryListViewModel) {
+        self.entryList = entryList
+        observeEntryListChanges()
+    }
+
     
     var consumedCalories: Int {
-        info.consumedCalories
+        var total = 0
+        
+        for entry in entryList.entries {
+            if entry.consume {
+                total += entry.kcalCount
+            }
+        }
+        
+        return total
     }
     
     var burnedCalories: Int {
-        info.burnedCalories
+        var total = 0
+        
+        for entry in entryList.entries {
+            if !entry.consume {
+                total += entry.kcalCount
+            }
+        }
+        
+        return total
     }
     
     var net: Int {
-        info.net
+        return target + burnedCalories - consumedCalories
     }
     
     var percentComplete: Float {
-        info.percentComplete
+        return Float(consumedCalories) / (Float(target) + Float(burnedCalories))
     }
     
+    private func observeEntryListChanges() {
+        entryList.$info
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables) // Correct usage
+    }
 }

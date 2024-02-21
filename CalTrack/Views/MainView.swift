@@ -11,11 +11,20 @@ import Foundation
 struct MainView: View {
     @State private var showingPopup = false
     
+    @ObservedObject var entryListViewModel: EntryListViewModel
+    @ObservedObject var trackerViewModel: TrackerViewModel
+
+    init() {
+        let entryListVM = EntryListViewModel()
+        self.entryListViewModel = entryListVM
+        self.trackerViewModel = TrackerViewModel(entryList: entryListVM)
+    }
+    
     var body: some View {
         VStack {
-            SummaryView(viewModel: TrackerViewModel())
+            SummaryView(viewModel: trackerViewModel)
             
-            EntryListView(viewModel: EntryListViewModel())
+            EntryListView(viewModel: entryListViewModel)
             
             Spacer()
             
@@ -31,7 +40,7 @@ struct MainView: View {
             
         }
         .sheet(isPresented: $showingPopup) {
-            AddEntryView()
+            AddEntryView(viewModel: entryListViewModel, showingPopup: $showingPopup)
         }
     }
 }

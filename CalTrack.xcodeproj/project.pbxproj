@@ -15,7 +15,6 @@
 		8622732B2B7C3E5F00A8ED16 /* EntryListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622732A2B7C3E5F00A8ED16 /* EntryListModel.swift */; };
 		8622732D2B7C3F0700A8ED16 /* EntryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622732C2B7C3F0700A8ED16 /* EntryModel.swift */; };
 		862273302B7C408300A8ED16 /* TrackerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622732F2B7C408300A8ED16 /* TrackerViewModel.swift */; };
-		862273322B7C40BC00A8ED16 /* TrackerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862273312B7C40BC00A8ED16 /* TrackerModel.swift */; };
 		862273352B7D5B2800A8ED16 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862273342B7D5B2800A8ED16 /* MainView.swift */; };
 		862273372B7D5FFD00A8ED16 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862273362B7D5FFD00A8ED16 /* AppColors.swift */; };
 		8622733D2B7D649000A8ED16 /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622733C2B7D649000A8ED16 /* ProgressBarView.swift */; };
@@ -36,7 +35,6 @@
 		8622732A2B7C3E5F00A8ED16 /* EntryListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryListModel.swift; sourceTree = "<group>"; };
 		8622732C2B7C3F0700A8ED16 /* EntryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryModel.swift; sourceTree = "<group>"; };
 		8622732F2B7C408300A8ED16 /* TrackerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerViewModel.swift; sourceTree = "<group>"; };
-		862273312B7C40BC00A8ED16 /* TrackerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerModel.swift; sourceTree = "<group>"; };
 		862273342B7D5B2800A8ED16 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		862273362B7D5FFD00A8ED16 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		8622733C2B7D649000A8ED16 /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
@@ -78,8 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				862273332B7D5B1400A8ED16 /* Views */,
-				862273272B7C0F7B00A8ED16 /* Models */,
 				8622732E2B7C404A00A8ED16 /* ViewModels */,
+				862273272B7C0F7B00A8ED16 /* Models */,
 				862273192B7C0D2700A8ED16 /* CalTrackApp.swift */,
 				8622731B2B7C0D2700A8ED16 /* ContentView.swift */,
 				8622731D2B7C0D2800A8ED16 /* Assets.xcassets */,
@@ -99,7 +97,6 @@
 		862273272B7C0F7B00A8ED16 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				862273312B7C40BC00A8ED16 /* TrackerModel.swift */,
 				8622732A2B7C3E5F00A8ED16 /* EntryListModel.swift */,
 				8622732C2B7C3F0700A8ED16 /* EntryModel.swift */,
 				862273362B7D5FFD00A8ED16 /* AppColors.swift */,
@@ -213,7 +210,6 @@
 				862273372B7D5FFD00A8ED16 /* AppColors.swift in Sources */,
 				86B01FD92B80304E00921508 /* EntryListView.swift in Sources */,
 				862273302B7C408300A8ED16 /* TrackerViewModel.swift in Sources */,
-				862273322B7C40BC00A8ED16 /* TrackerModel.swift in Sources */,
 				8622733D2B7D649000A8ED16 /* ProgressBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
