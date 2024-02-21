@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Entry: Hashable {
+struct Entry: Hashable, Codable {
     var name: String
     var consume: Bool
     var kcalCount: Int

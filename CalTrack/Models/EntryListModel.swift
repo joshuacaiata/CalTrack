@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EntryList {
+struct EntryList: Codable {
     var entries: [Entry] = []
     
     mutating func addEntry(new: Entry) {
