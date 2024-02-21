@@ -10,6 +10,7 @@ import SwiftUI
 struct SummaryView: View {
     @ObservedObject var viewModel: TrackerViewModel
     
+    // formats the current date
     var formattedCurrentDate: String {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "EEEE, MMMM dd, yyyy"
@@ -20,16 +21,19 @@ struct SummaryView: View {
         HStack {
             Spacer()
             VStack{
+                // shows the date
                 Text("\(formattedCurrentDate)")
                     .padding(.all, 10)
                 ZStack{
+                    // shows the progress bar circle
                     ProgressBarView(viewModel: viewModel)
                         .frame(width: 200, height: 200)
+                    // displays calorie count, checking if user is over their limit or not
                     VStack{
-                        Text("\(viewModel.net)")
+                        Text("\(viewModel.net >= 0 ? viewModel.net : -1 * viewModel.net)")
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                        Text("kcal remaining")
+                        Text(viewModel.net >= 0 ? "kcal remaining" : "over")
                     }
                 }
             }

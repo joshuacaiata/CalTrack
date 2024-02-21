@@ -10,18 +10,24 @@ import SwiftUI
 import Combine
 
 class TrackerViewModel: ObservableObject {
+    // Holds the list of entries
     var entryList: EntryListViewModel
     
+    // Set to keep track of Combine subscriptions to manage memory
     private var cancellables = Set<AnyCancellable>()
         
+    // Default calorie goal
     var target = 2250
     
+    // Initializer for the class, allowing for dependency injection
     init(entryList: EntryListViewModel) {
         self.entryList = entryList
+        
+        // Calls a method to start observing changes in the entry list
         observeEntryListChanges()
     }
 
-    
+    // Calculates number of consumed calories
     var consumedCalories: Int {
         var total = 0
         
@@ -34,6 +40,7 @@ class TrackerViewModel: ObservableObject {
         return total
     }
     
+    // Calculates number of burned calories
     var burnedCalories: Int {
         var total = 0
         
@@ -46,19 +53,25 @@ class TrackerViewModel: ObservableObject {
         return total
     }
     
+    // Calculates net calories
     var net: Int {
         return target + burnedCalories - consumedCalories
     }
     
+    // Calculates percent completed
     var percentComplete: Float {
         return Float(consumedCalories) / (Float(target) + Float(burnedCalories))
     }
     
+    // This makes the class observe changes in the entry list and update the model accordingly
     private func observeEntryListChanges() {
+        // observes the info publisher from the entry list
         entryList.$info
+            // whenever the info changes, it triggers the objectWillChange publisher to notify SwiftUI that it needs to update the view
             .sink { [weak self] _ in
                 self?.objectWillChange.send()
             }
-            .store(in: &cancellables) // Correct usage
+            // Stores the subscription in the cancellables set to manage lifecycle
+            .store(in: &cancellables)
     }
 }

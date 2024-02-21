@@ -10,7 +10,7 @@ import SwiftUI
 struct EntryView: View {
     @ObservedObject var viewModel: EntryViewModel
         
-    
+    // Creates and styles each entry
     var body: some View {
         HStack{
             Text("\(viewModel.name)")

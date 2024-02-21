@@ -8,7 +8,7 @@
 import Foundation
 
 struct EntryList {
-    var entries: [Entry] = [Entry(name: "Apple", consume: true, kcalCount: 100), Entry(name: "Apple", consume: true, kcalCount: 100), Entry(name: "Apple", consume: true, kcalCount: 100)]
+    var entries: [Entry] = []
     
     mutating func addEntry(new: Entry) {
         entries.append(new)

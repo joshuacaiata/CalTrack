@@ -15,13 +15,13 @@ struct EntryListView: View {
     }
     
     var body: some View {
-        
         List {
+            // iterate over everything in the entry list and make an entry view
             ForEach(viewModel.entries, id: \.self) { entry in
                 EntryView(viewModel: entry)
-                    .background(Color.white)
                     .listRowInsets(EdgeInsets())
             }
+            // Handles deleting the item
             .onDelete(perform: deleteItems)
         }
         .listStyle(PlainListStyle())
