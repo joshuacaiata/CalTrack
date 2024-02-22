@@ -9,10 +9,10 @@ import Foundation
 
 // Responsible for storing app's data
 // Only one instance of this class will exist during runtime
-class DataManager {
+class PersistenceManager {
     
     // Shared instance of DataManager to be used in the app
-    static let shared = DataManager()
+    static let shared = PersistenceManager()
     
     // Private initizalizer
     private init () {}
@@ -77,7 +77,7 @@ class DataManager {
                 for: specifies the directory type, .documentDirectory wants the path to the user's documents directory
                 in: specifies the domain of the search, .userDomainMask indicates we are looking for directories available to the user
          
-            .first! gets the first URL object from the returned array
+            .first gets the first URL object from the returned array
          
          We are doing this safely with error handling in case the document directory cant be located
         */

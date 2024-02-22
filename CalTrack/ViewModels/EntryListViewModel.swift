@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 class EntryListViewModel: ObservableObject {
     // Publish the Entry List to observers
@@ -15,8 +16,18 @@ class EntryListViewModel: ObservableObject {
         }
     }
     
+    var timerSubscription: AnyCancellable?
+    
     // Initializer which loads previous entries
     init() {
+        
+        // Check if its a new day and if so, reset
+        DateManager.shared.newDayProtocol { isNewDay in
+            if isNewDay {
+                self.clearEntries()
+            }
+        }
+        
         loadEntries()
     }
     
@@ -43,7 +54,7 @@ class EntryListViewModel: ObservableObject {
     
     // Calling datamanager's saveEntryList method, passing in the info field
     private func saveEntries() {
-        DataManager.shared.saveEntryList(entryList: info) { success in
+        PersistenceManager.shared.saveEntryList(entryList: info) { success in
             if success {
                 print("Entries successfully saved.")
             } else {
@@ -53,10 +64,15 @@ class EntryListViewModel: ObservableObject {
     }
     
     private func loadEntries() {
-        if let loadedEntryList = DataManager.shared.loadEntryList() {
+        if let loadedEntryList = PersistenceManager.shared.loadEntryList() {
             DispatchQueue.main.async {
                 self.info = loadedEntryList
             }
         }
+    }
+    
+    private func clearEntries() {
+        self.info = EntryList()
+        saveEntries()
     }
 }
