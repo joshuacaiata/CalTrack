@@ -17,12 +17,6 @@ class EntryManager {
         let emptyList = EntryList()
         
         // Save the entry
-        PersistenceManager.shared.saveEntryList(entryList: emptyList) {success in
-            if !success {
-                print("Failed to save cleared entries")
-            } else {
-                print("Saved cleared entries")
-            }
-        }
+        PersistenceManager.shared.saveEntryList(entryList: emptyList)
     }
 }

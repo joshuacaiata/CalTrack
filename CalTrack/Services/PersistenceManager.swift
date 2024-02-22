@@ -14,13 +14,9 @@ class PersistenceManager {
     // Shared instance of DataManager to be used in the app
     static let shared = PersistenceManager()
     
-    // Private initizalizer
-    private init () {}
-    
     // Saves the entrylist to the device's storage
-    // Takes the entry list and a closure that gets called after the save operation
-    // The closure returns a bool to express success or failure
-    func saveEntryList(entryList: EntryList, completion: @escaping (Bool) -> Void) {
+    // Takes the entry list
+    func saveEntryList(entryList: EntryList) {
         // Try serializing into JSON data
         do {
             // Define filepath
@@ -33,14 +29,11 @@ class PersistenceManager {
             // Write JSON data to file system at filepath we calculated
             // Set options to ensure atomic writing (all or nothing) and file protection
             try data.write(to: filePath, options: [.atomic, .completeFileProtection])
-            
-            completion(true)
+
         } catch {
             // If an error occurs, print an error
             print("Error saving entry list: \(error)")
-            
-            // Call the completion handler with false
-            completion(false)
+
         }
     }
     

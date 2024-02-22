@@ -21,12 +21,8 @@ class EntryListViewModel: ObservableObject {
     // Initializer which loads previous entries
     init() {
         
-        // Check if its a new day and if so, reset
-        DateManager.shared.newDayProtocol { isNewDay in
-            if isNewDay {
-                self.clearEntries()
-            }
-        }
+        // Run newDayProtocol from DateManager to check if we need to reset
+        DateManager.shared.newDayProtocol()
         
         loadEntries()
     }
@@ -54,13 +50,7 @@ class EntryListViewModel: ObservableObject {
     
     // Calling datamanager's saveEntryList method, passing in the info field
     private func saveEntries() {
-        PersistenceManager.shared.saveEntryList(entryList: info) { success in
-            if success {
-                print("Entries successfully saved.")
-            } else {
-                print("Entries failed to save")
-            }
-        }
+        PersistenceManager.shared.saveEntryList(entryList: info)
     }
     
     private func loadEntries() {

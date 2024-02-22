@@ -22,14 +22,12 @@ class DateManager {
     }
     
     // Check if current day is different from last, if so, clear entries
-    // Completion parameter is a closure with a bool indicating if its a new day and entries were cleared
-    func newDayProtocol(completion: @escaping (_ isNewDay: Bool) -> Void) {
+    func newDayProtocol() {
         // Get last active date
         guard let lastActiveDate = getLastActiveDate() else {
             // if no last active date set last active date to current
             print("there was no last active date")
             updateLastActiveDate()
-            completion(false)
             return
         }
         
@@ -40,10 +38,8 @@ class DateManager {
             print("its a new day, clearing entries")
             EntryManager.shared.clearEntries()
             updateLastActiveDate()
-            completion(true)
         } else {
             print("its not a new day")
-            completion(false)
         }
     }
 }
