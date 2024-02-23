@@ -11,4 +11,5 @@ struct Entry: Hashable, Codable {
     var name: String
     var consume: Bool
     var kcalCount: Int
+    var date: Date
 }

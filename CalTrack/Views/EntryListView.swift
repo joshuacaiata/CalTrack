@@ -17,7 +17,7 @@ struct EntryListView: View {
     var body: some View {
         List {
             // iterate over everything in the entry list and make an entry view
-            ForEach(viewModel.entries, id: \.self) { entry in
+            ForEach(viewModel.todaysEntries, id: \.self) { entry in
                 EntryView(viewModel: entry)
                     .listRowInsets(EdgeInsets())
             }
@@ -31,5 +31,5 @@ struct EntryListView: View {
 }
 
 #Preview {
-    EntryListView(viewModel: EntryListViewModel())
+    EntryListView(viewModel: EntryListViewModel(dateViewModel: DateViewModel()))
 }

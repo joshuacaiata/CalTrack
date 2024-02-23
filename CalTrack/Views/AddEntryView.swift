@@ -34,10 +34,11 @@ struct AddEntryView: View {
         // Find information regarding the entry
         let consume = selection == .food
         let kcalCount = Int(kcalText) ?? 0
+        let date = viewModel.dateViewModel.selectedDate
         
         // Create the entry and add it
-        let newEntry = Entry(name: entryText, consume: consume, kcalCount: kcalCount)
-        let newEntryViewModel = EntryViewModel(name: newEntry.name, consume: newEntry.consume, kcalCount: newEntry.kcalCount)
+        let newEntry = Entry(name: entryText, consume: consume, kcalCount: kcalCount, date: date)
+        let newEntryViewModel = EntryViewModel(name: newEntry.name, consume: newEntry.consume, kcalCount: newEntry.kcalCount, date: newEntry.date)
         
         viewModel.addEntry(entry: newEntryViewModel)
     }
@@ -118,26 +119,33 @@ struct AddEntryView: View {
             .padding(.horizontal, 30)
             .padding(.top, 20)
             
-            // This calls the add entry and closes the sheet
-            Button(action: {
-                addEntry()
-                showingPopup = false
-            }) {
-                Text("Confirm")
-                    .frame(maxWidth: .infinity)
-                    .padding()
+            HStack {
+                // This calls the add entry and closes the sheet
+                Button(action: {
+                    addEntry()
+                    
+                    for entry in viewModel.entries {
+                        print(entry.date)
+                    }
+                    
+                    print(viewModel.entries)
+                    showingPopup = false
+                }) {
+                    Text("Confirm")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+                .foregroundColor(.black)
+                .background(AppColors.CalTrackLightBlue)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .padding(.horizontal, 30)
+                .padding(.top, 20)
+                
             }
-            .foregroundColor(.black)
-            .background(AppColors.CalTrackLightBlue)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
-            .padding(.horizontal, 30)
-            .padding(.top, 20)
-            
-            
         }
     }
 }
 
 #Preview {
-    AddEntryView(viewModel: EntryListViewModel(), showingPopup: .constant(true))
+    AddEntryView(viewModel: EntryListViewModel(dateViewModel: DateViewModel()), showingPopup: .constant(true))
 }

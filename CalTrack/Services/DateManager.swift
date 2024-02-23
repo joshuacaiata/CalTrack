@@ -7,6 +7,7 @@
 
 import Foundation
 
+/*
 class DateManager {
     static let shared = DateManager()
     
@@ -43,3 +44,4 @@ class DateManager {
         }
     }
 }
+*/

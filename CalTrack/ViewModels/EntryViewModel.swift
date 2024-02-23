@@ -27,14 +27,19 @@ class EntryViewModel: ObservableObject, Hashable {
         info.kcalCount
     }
     
+    // Date
+    var date: Date {
+        info.date
+    }
+    
     // Which colour do we use for the text
     var calColor: Color {
             consume ? AppColors.CalTrackNegative : AppColors.CalTrackPositive
     }
     
     // Initializer
-    init(name: String, consume: Bool, kcalCount: Int) {
-            self.info = Entry(name: name, consume: consume, kcalCount: kcalCount)
+    init(name: String, consume: Bool, kcalCount: Int, date: Date) {
+        self.info = Entry(name: name, consume: consume, kcalCount: kcalCount, date: date)
     }
     
     

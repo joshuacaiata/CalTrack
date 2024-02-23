@@ -16,13 +16,22 @@ class EntryListViewModel: ObservableObject {
         }
     }
     
+    @Published var dateViewModel: DateViewModel
+    
     var timerSubscription: AnyCancellable?
     
+    private var cancellables = Set<AnyCancellable>()
+    
     // Initializer which loads previous entries
-    init() {
+    init(dateViewModel: DateViewModel) {
         
-        // Run newDayProtocol from DateManager to check if we need to reset
-        DateManager.shared.newDayProtocol()
+        self.dateViewModel = dateViewModel
+        
+        dateViewModel.$selectedDate
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables)
         
         loadEntries()
     }
@@ -30,8 +39,17 @@ class EntryListViewModel: ObservableObject {
     // Create the entries field
     var entries: [EntryViewModel] {
         info.entries.map {
-            EntryViewModel(name: $0.name, consume: $0.consume, kcalCount: $0.kcalCount)
+            EntryViewModel(name: $0.name, consume: $0.consume, kcalCount: $0.kcalCount, date: $0.date)
         }
+    }
+    
+    // Filter the entries by the date
+    var todaysEntries: [EntryViewModel] {
+        print("filerting entries queen!")
+        return entries.filter { entryViewModel in
+            Calendar.current.isDate(entryViewModel.info.date, inSameDayAs: dateViewModel.selectedDate)
+        }
+        
     }
     
     // Ability to add entries
