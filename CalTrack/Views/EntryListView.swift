@@ -10,10 +10,6 @@ import SwiftUI
 struct EntryListView: View {
     @ObservedObject var viewModel: EntryListViewModel
     
-    private func deleteItems(at offsets: IndexSet) {
-        viewModel.deleteEntries(at: offsets)
-    }
-    
     var body: some View {
         List {
             // iterate over everything in the entry list and make an entry view
@@ -22,7 +18,9 @@ struct EntryListView: View {
                     .listRowInsets(EdgeInsets())
             }
             // Handles deleting the item
-            .onDelete(perform: deleteItems)
+            .onDelete { indexSet in
+                viewModel.deleteEntries(at: indexSet)
+            }
         }
         .listStyle(PlainListStyle())
         .padding(.horizontal, 30)

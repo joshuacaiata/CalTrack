@@ -37,8 +37,8 @@ struct AddEntryView: View {
         let date = viewModel.dateViewModel.selectedDate
         
         // Create the entry and add it
-        let newEntry = Entry(name: entryText, consume: consume, kcalCount: kcalCount, date: date)
-        let newEntryViewModel = EntryViewModel(name: newEntry.name, consume: newEntry.consume, kcalCount: newEntry.kcalCount, date: newEntry.date)
+        let newEntry = Entry(id: UUID(), name: entryText, consume: consume, kcalCount: kcalCount, date: date)
+        let newEntryViewModel = EntryViewModel(id: newEntry.id, name: newEntry.name, consume: newEntry.consume, kcalCount: newEntry.kcalCount, date: newEntry.date)
         
         viewModel.addEntry(entry: newEntryViewModel)
     }
@@ -123,12 +123,6 @@ struct AddEntryView: View {
                 // This calls the add entry and closes the sheet
                 Button(action: {
                     addEntry()
-                    
-                    for entry in viewModel.entries {
-                        print(entry.date)
-                    }
-                    
-                    print(viewModel.entries)
                     showingPopup = false
                 }) {
                     Text("Confirm")

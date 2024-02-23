@@ -29,7 +29,6 @@ class PersistenceManager {
             // Write JSON data to file system at filepath we calculated
             // Set options to ensure atomic writing (all or nothing) and file protection
             try data.write(to: filePath, options: [.atomic, .completeFileProtection])
-
         } catch {
             // If an error occurs, print an error
             print("Error saving entry list: \(error)")

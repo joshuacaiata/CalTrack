@@ -14,7 +14,9 @@ class TrackerViewModel: ObservableObject {
     var entryList: EntryListViewModel
     
     // Set to keep track of Combine subscriptions to manage memory
-    private var cancellables = Set<AnyCancellable>()
+    private var entryListCancellables = Set<AnyCancellable>()
+    
+    private var dateViewCancellables = Set<AnyCancellable>()
         
     // Default calorie goal
     var target = 2250
@@ -22,16 +24,18 @@ class TrackerViewModel: ObservableObject {
     // Initializer for the class, allowing for dependency injection
     init(entryList: EntryListViewModel) {
         self.entryList = entryList
-        
+                
         // Calls a method to start observing changes in the entry list
         observeEntryListChanges()
+        
+        observeDateViewChanges()
     }
 
     // Calculates number of consumed calories
     var consumedCalories: Int {
         var total = 0
         
-        for entry in entryList.entries {
+        for entry in entryList.todaysEntries {
             if entry.consume {
                 total += entry.kcalCount
             }
@@ -44,7 +48,7 @@ class TrackerViewModel: ObservableObject {
     var burnedCalories: Int {
         var total = 0
         
-        for entry in entryList.entries {
+        for entry in entryList.todaysEntries {
             if !entry.consume {
                 total += entry.kcalCount
             }
@@ -72,6 +76,15 @@ class TrackerViewModel: ObservableObject {
                 self?.objectWillChange.send()
             }
             // Stores the subscription in the cancellables set to manage lifecycle
-            .store(in: &cancellables)
+            .store(in: &entryListCancellables)
+    }
+    
+    private func observeDateViewChanges() {
+        entryList.dateViewModel.$selectedDate
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+                self?.entryList.loadEntries()
+            }
+            .store(in: &dateViewCancellables)
     }
 }

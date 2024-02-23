@@ -30,7 +30,7 @@ struct MainView: View {
     var body: some View {
         VStack {
             // Call the summary view (big blue box)
-            SummaryView(trackerViewModel: trackerViewModel, dateViewModel: entryListViewModel.dateViewModel)
+            SummaryView(trackerViewModel: trackerViewModel)
             
             // Call the view for the entry list
             EntryListView(viewModel: entryListViewModel)

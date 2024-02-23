@@ -39,13 +39,12 @@ class EntryListViewModel: ObservableObject {
     // Create the entries field
     var entries: [EntryViewModel] {
         info.entries.map {
-            EntryViewModel(name: $0.name, consume: $0.consume, kcalCount: $0.kcalCount, date: $0.date)
+            EntryViewModel(id: $0.id, name: $0.name, consume: $0.consume, kcalCount: $0.kcalCount, date: $0.date)
         }
     }
     
     // Filter the entries by the date
     var todaysEntries: [EntryViewModel] {
-        print("filerting entries queen!")
         return entries.filter { entryViewModel in
             Calendar.current.isDate(entryViewModel.info.date, inSameDayAs: dateViewModel.selectedDate)
         }
@@ -56,22 +55,26 @@ class EntryListViewModel: ObservableObject {
     func addEntry(entry: EntryViewModel) {
         info.entries.append(entry.info)
         // didSet will call saveEntries() on changes
+        saveEntries()
     }
     
     // Ability to delete entries at indices
     func deleteEntries(at offsets: IndexSet) {
-        for offset in offsets {
-            info.entries.remove(at: offset)
-            // didSet will call saveEntries() on changes
+        
+        let idsToDelete = offsets.map { todaysEntries[$0].id }
+        info.entries.removeAll { entry in
+            idsToDelete.contains(entry.id)
         }
+        
+        saveEntries()
     }
     
     // Calling datamanager's saveEntryList method, passing in the info field
-    private func saveEntries() {
+    func saveEntries() {
         PersistenceManager.shared.saveEntryList(entryList: info)
     }
     
-    private func loadEntries() {
+    func loadEntries() {
         if let loadedEntryList = PersistenceManager.shared.loadEntryList() {
             DispatchQueue.main.async {
                 self.info = loadedEntryList
@@ -82,5 +85,10 @@ class EntryListViewModel: ObservableObject {
     private func clearEntries() {
         self.info = EntryList()
         saveEntries()
+    }
+    
+    func originalIndex(for filteredIndex: Int) -> Int? {
+        let id = todaysEntries[filteredIndex].id
+        return entries.firstIndex(where: { $0.id == id })
     }
 }

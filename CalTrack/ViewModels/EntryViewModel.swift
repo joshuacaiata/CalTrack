@@ -9,28 +9,15 @@ import Foundation
 import SwiftUI
 
 // This is hashable for the entrylistview so we can use ForEach
-class EntryViewModel: ObservableObject, Hashable {
+class EntryViewModel: ObservableObject, Hashable, Identifiable {
     @Published var info: Entry
     
-    // Name of entry
-    var name: String {
-        info.name
-    }
-    
-    // Whether its consuming or activity
-    var consume: Bool {
-        info.consume
-    }
-    
-    // Calorie count
-    var kcalCount: Int {
-        info.kcalCount
-    }
-    
-    // Date
-    var date: Date {
-        info.date
-    }
+    // Properties of Entry
+    var name: String { info.name }
+    var consume: Bool { info.consume }
+    var kcalCount: Int { info.kcalCount }
+    var date: Date { info.date }
+    var id: UUID { info.id }
     
     // Which colour do we use for the text
     var calColor: Color {
@@ -38,8 +25,8 @@ class EntryViewModel: ObservableObject, Hashable {
     }
     
     // Initializer
-    init(name: String, consume: Bool, kcalCount: Int, date: Date) {
-        self.info = Entry(name: name, consume: consume, kcalCount: kcalCount, date: date)
+    init(id: UUID, name: String, consume: Bool, kcalCount: Int, date: Date) {
+        self.info = Entry(id: id, name: name, consume: consume, kcalCount: kcalCount, date: date)
     }
     
     
@@ -50,6 +37,6 @@ class EntryViewModel: ObservableObject, Hashable {
     
     // hashing function
     func hash(into hasher: inout Hasher) {
-        hasher.combine(info)
+        hasher.combine(id)
     }
 }

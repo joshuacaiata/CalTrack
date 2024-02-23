@@ -9,14 +9,13 @@ import SwiftUI
 
 struct SummaryView: View {
     @ObservedObject var trackerViewModel: TrackerViewModel
-    @ObservedObject var dateViewModel: DateViewModel
     
     var body: some View {
         HStack {
             Spacer()
             VStack{
                 // shows the date
-                Text("\(dateViewModel.formattedCurrentDate)")
+                Text("\(trackerViewModel.entryList.dateViewModel.formattedCurrentDate)")
                     .padding(.all, 10)
                 ZStack{
                     // shows the progress bar circle
@@ -44,5 +43,5 @@ struct SummaryView: View {
 }
 
 #Preview {
-    SummaryView(trackerViewModel: TrackerViewModel(entryList: EntryListViewModel(dateViewModel: DateViewModel())), dateViewModel: DateViewModel())
+    SummaryView(trackerViewModel: TrackerViewModel(entryList: EntryListViewModel(dateViewModel: DateViewModel())))
 }

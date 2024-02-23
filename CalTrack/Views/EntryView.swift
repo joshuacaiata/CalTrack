@@ -31,5 +31,5 @@ struct EntryView: View {
 }
 
 #Preview {
-    EntryView(viewModel: EntryViewModel(name: "Apple", consume: true, kcalCount: 100, date: Date()))
+    EntryView(viewModel: EntryViewModel(id: UUID(), name: "Apple", consume: true, kcalCount: 100, date: Date()))
 }
