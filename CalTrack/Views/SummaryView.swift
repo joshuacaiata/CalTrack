@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SummaryView: View {
     @ObservedObject var trackerViewModel: TrackerViewModel
+    @State private var showingUpdateTarget = false
     
     var body: some View {
         HStack {
@@ -59,6 +60,9 @@ struct SummaryView: View {
                         Text(trackerViewModel.net >= 0 ? "kcal remaining" : "over")
                     }
                 }
+                .onTapGesture {
+                    showingUpdateTarget = true
+                }
             }
             .padding(.vertical, 25)
             .frame(maxWidth:.infinity)
@@ -70,6 +74,9 @@ struct SummaryView: View {
         .padding(.top, 25)
         .padding(.horizontal, 30)
         .padding(.bottom, 30)
+        .sheet(isPresented: $showingUpdateTarget, content: {
+            UpdateTargetView(target: $trackerViewModel.target, isPresented: $showingUpdateTarget)
+        })
     }
 }
 

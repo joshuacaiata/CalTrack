@@ -18,6 +18,7 @@
 		862273372B7D5FFD00A8ED16 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862273362B7D5FFD00A8ED16 /* AppColors.swift */; };
 		8622733D2B7D649000A8ED16 /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622733C2B7D649000A8ED16 /* ProgressBarView.swift */; };
 		865614F02B87A1890070D639 /* DateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865614EF2B87A1890070D639 /* DateViewModel.swift */; };
+		865614F72B89869E0070D639 /* UpdateTargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865614F62B89869E0070D639 /* UpdateTargetView.swift */; };
 		86B01FD52B8011FA00921508 /* EntryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B01FD42B8011FA00921508 /* EntryListViewModel.swift */; };
 		86B01FD72B802DB300921508 /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B01FD62B802DB300921508 /* EntryViewModel.swift */; };
 		86B01FD92B80304E00921508 /* EntryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B01FD82B80304E00921508 /* EntryListView.swift */; };
@@ -39,6 +40,7 @@
 		862273362B7D5FFD00A8ED16 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		8622733C2B7D649000A8ED16 /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		865614EF2B87A1890070D639 /* DateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewModel.swift; sourceTree = "<group>"; };
+		865614F62B89869E0070D639 /* UpdateTargetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTargetView.swift; sourceTree = "<group>"; };
 		86B01FD42B8011FA00921508 /* EntryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryListViewModel.swift; sourceTree = "<group>"; };
 		86B01FD62B802DB300921508 /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
 		86B01FD82B80304E00921508 /* EntryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryListView.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				86B01FD82B80304E00921508 /* EntryListView.swift */,
 				86B01FDA2B80305A00921508 /* EntryView.swift */,
 				861547462B829079003D1034 /* SummaryView.swift */,
+				865614F62B89869E0070D639 /* UpdateTargetView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				86B711062B865349003943F2 /* PersistenceManager.swift in Sources */,
 				8622732B2B7C3E5F00A8ED16 /* EntryListModel.swift in Sources */,
 				86B01FD52B8011FA00921508 /* EntryListViewModel.swift in Sources */,
+				865614F72B89869E0070D639 /* UpdateTargetView.swift in Sources */,
 				86DD57392B82B3A40033B746 /* AddEntryView.swift in Sources */,
 				8622731A2B7C0D2700A8ED16 /* CalTrackApp.swift in Sources */,
 				86B01FD72B802DB300921508 /* EntryViewModel.swift in Sources */,
