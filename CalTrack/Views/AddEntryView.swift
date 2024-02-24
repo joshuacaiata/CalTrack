@@ -137,6 +137,9 @@ struct AddEntryView: View {
                 
             }
         }
+        .background(Color.white)
+        .foregroundColor(.black)
+        .ignoresSafeArea()
     }
 }
 

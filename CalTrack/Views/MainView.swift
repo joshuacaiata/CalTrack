@@ -38,11 +38,7 @@ struct MainView: View {
             Spacer()
             
             HStack {
-                Button(action: {
-                    entryListViewModel.dateViewModel.goToPreviousDay()
-                }) {
-                    Text("<")
-                }
+                Spacer()
                 
                 // Button to add entries
                 Button(action: {
@@ -55,18 +51,17 @@ struct MainView: View {
                         .background(Circle().fill(AppColors.CalTrackNegative))
                 }
                 
-                Button(action: {
-                    entryListViewModel.dateViewModel.goToNextDay()
-                }) {
-                    Text(">")
-                }
+                Spacer()
+
             }
             
         }
         // to pull up the sheet when you click +
         .sheet(isPresented: $showingPopup) {
             AddEntryView(viewModel: entryListViewModel, showingPopup: $showingPopup)
+                .preferredColorScheme(.light)
         }
+        .background(Color.white)
     }
 }
 

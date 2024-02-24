@@ -23,7 +23,7 @@ class DateViewModel: ObservableObject {
     // formats the current date
     var formattedCurrentDate: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE, MMMM dd, yyyy"
+        dateFormatter.dateFormat = "EEEE, MMM dd"
         return dateFormatter.string(from: selectedDate)
     }
 }

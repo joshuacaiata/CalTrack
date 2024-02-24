@@ -14,9 +14,39 @@ struct SummaryView: View {
         HStack {
             Spacer()
             VStack{
-                // shows the date
-                Text("\(trackerViewModel.entryList.dateViewModel.formattedCurrentDate)")
-                    .padding(.all, 10)
+                
+                HStack {
+                           
+                    Spacer()
+                    
+                    Button(action: {
+                        trackerViewModel.entryList.dateViewModel.goToPreviousDay()
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20))
+                            .foregroundColor(.black)
+                            .padding(.leading)
+                    }
+                    
+                    // shows the date
+                    Text("\(trackerViewModel.entryList.dateViewModel.formattedCurrentDate)")
+                        .font(.title3)
+                        .padding(.all, 10)
+                        .frame(minWidth: 200)
+                    
+                    Button(action: {
+                        trackerViewModel.entryList.dateViewModel.goToNextDay()
+                    }) {
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 20))
+                            .foregroundColor(.black)
+                            .padding(.trailing)
+                    }
+                    
+                    Spacer()
+                    
+                }
+                
                 ZStack{
                     // shows the progress bar circle
                     ProgressBarView(viewModel: trackerViewModel)
@@ -35,6 +65,7 @@ struct SummaryView: View {
             Spacer()
         }
         .background(AppColors.CalTrackLightBlue)
+        .foregroundColor(.black)
         .cornerRadius(15)
         .padding(.top, 25)
         .padding(.horizontal, 30)

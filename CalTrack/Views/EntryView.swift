@@ -27,6 +27,8 @@ struct EntryView: View {
             .padding(.vertical, 20.0)
             .padding(.horizontal, 10)
         }
+        .background(Color.white)
+        .foregroundColor(.black)
     }
 }
 
