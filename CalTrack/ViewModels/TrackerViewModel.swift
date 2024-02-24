@@ -13,21 +13,30 @@ class TrackerViewModel: ObservableObject {
     // Holds the list of entries
     var entryList: EntryListViewModel
     
+    // Default calorie goal
+    @Published var target: Int {
+        didSet {
+            UserDefaults.standard.set(target, forKey: "targetCalories")
+        }
+    }
+    
     // Set to keep track of Combine subscriptions to manage memory
     private var entryListCancellables = Set<AnyCancellable>()
     
     private var dateViewCancellables = Set<AnyCancellable>()
-        
-    // Default calorie goal
-    var target = 2250
     
     // Initializer for the class, allowing for dependency injection
     init(entryList: EntryListViewModel) {
         self.entryList = entryList
+        
+        // Load target from UserDefaults, defaulting to 2250
+        self.target = UserDefaults.standard.integer(forKey: "targetCalories")
+        if self.target == 0 {
+            self.target = 2250
+        }
                 
         // Calls a method to start observing changes in the entry list
         observeEntryListChanges()
-        
         observeDateViewChanges()
     }
 

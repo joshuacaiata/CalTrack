@@ -75,7 +75,8 @@ struct SummaryView: View {
         .padding(.horizontal, 30)
         .padding(.bottom, 30)
         .sheet(isPresented: $showingUpdateTarget, content: {
-            UpdateTargetView(target: $trackerViewModel.target, isPresented: $showingUpdateTarget)
+            UpdateTargetView(trackerViewModel: trackerViewModel, isPresented: $showingUpdateTarget)
+                .preferredColorScheme(.light)
         })
     }
 }
