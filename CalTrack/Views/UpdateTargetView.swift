@@ -14,46 +14,40 @@ struct UpdateTargetView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                HStack {
-                    Text("Current Target:")
-                        .font(.title3)
-                        
-                    Spacer()
-                    
-                    Text("\(trackerViewModel.target)")
-                        .font(.title3)
+                ZStack{
+                    // shows the progress bar circle
+                    ProgressBarView(viewModel: trackerViewModel)
+                        .frame(width: 200, height: 200)
+                    // displays calorie count, checking if user is over their limit or not
+                    VStack{
+                        Text("\(trackerViewModel.net >= 0 ? trackerViewModel.net : -1 * trackerViewModel.net)")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                        Text(trackerViewModel.net >= 0 ? "kcal remaining" : "over")
+                    }
                 }
-                .padding(.horizontal, 30)
+                .padding(.vertical, 50)
+                .padding(.horizontal, 70)
+                .background(AppColors.CalTrackLightBlue)
+                .clipShape(RoundedRectangle(cornerRadius: 15))
+                .padding(.bottom, 50)
                 
-                HStack {
-                    Text("Current Net:")
-                        .font(.title3)
-                        
-                    Spacer()
-                    
-                    Text("\(trackerViewModel.net >= 0 ? trackerViewModel.net : -1 * trackerViewModel.net)")
-                        .font(.title3)
-                }
-                .padding(.horizontal, 30)
-                
-                HStack{
-                    Text("Set Daily Calorie Goal")
-                        .font(.title3)
-                    
-                    Spacer()
-                    
-                    TextField("Target calories", value: $trackerViewModel.target, formatter: NumberFormatter())
-                        .keyboardType(.numberPad)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .font(.title3)
-                        .frame(width:100)
-                        .multilineTextAlignment(.trailing)
-                        .bold()
-                        
-                }
-                .padding(.horizontal, 30)
-                .padding(.top, 50)
-                
+                Text("Set Daily Calorie Goal")
+                    .font(.title3)
+                                
+                TextField("Target calories", text: $trackerViewModel.targetString)
+                    .keyboardType(.numberPad)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .font(.title3)
+                    .frame(width: 250)
+                    .multilineTextAlignment(.center)
+                    .bold()
+                    .onAppear {
+                        trackerViewModel.targetString = "\(trackerViewModel.target)"
+                    }
+                    .onChange(of: trackerViewModel.targetString) {
+                        trackerViewModel.updateTargetFromString()
+                    }
                 
                 Button(action: {
                     isPresented = false
@@ -70,7 +64,7 @@ struct UpdateTargetView: View {
                 
                 Spacer()
             }
-            .padding(.top, 200)
+            .padding(.top, 75)
         }
     }
 }

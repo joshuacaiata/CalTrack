@@ -20,6 +20,8 @@ class TrackerViewModel: ObservableObject {
         }
     }
     
+    @Published var targetString: String = "2250"
+    
     // Set to keep track of Combine subscriptions to manage memory
     private var entryListCancellables = Set<AnyCancellable>()
     
@@ -95,5 +97,13 @@ class TrackerViewModel: ObservableObject {
                 self?.entryList.loadEntries()
             }
             .store(in: &dateViewCancellables)
+    }
+    
+    func updateTargetFromString() {
+        if let newValue = Int(targetString) {
+            target = newValue
+        } else if targetString.isEmpty {
+            target = 0
+        }
     }
 }
