@@ -54,6 +54,7 @@ struct MainView: View {
                 Spacer()
 
             }
+            .padding(.bottom)
             
         }
         // to pull up the sheet when you click +

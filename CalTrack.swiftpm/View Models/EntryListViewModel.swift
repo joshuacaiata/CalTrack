@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import HealthKit
 
 class EntryListViewModel: ObservableObject {
     // Publish the Entry List to observers
@@ -20,12 +19,12 @@ class EntryListViewModel: ObservableObject {
     @Published var dateViewModel: DateViewModel
     
     var timerSubscription: AnyCancellable?
-
-    private var cancellables = Set<AnyCancellable>()
     
+    private var cancellables = Set<AnyCancellable>()
     
     // Initializer which loads previous entries
     init(dateViewModel: DateViewModel) {
+        
         self.dateViewModel = dateViewModel
         
         dateViewModel.$selectedDate
