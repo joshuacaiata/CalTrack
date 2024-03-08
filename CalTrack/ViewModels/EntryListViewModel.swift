@@ -19,7 +19,6 @@ class EntryListViewModel: ObservableObject {
     
     @Published var dateViewModel: DateViewModel
     
-    var timerSubscription: AnyCancellable?
 
     private var cancellables = Set<AnyCancellable>()
     
@@ -81,15 +80,5 @@ class EntryListViewModel: ObservableObject {
                 self.info = loadedEntryList
             }
         }
-    }
-    
-    private func clearEntries() {
-        self.info = EntryList()
-        saveEntries()
-    }
-    
-    func originalIndex(for filteredIndex: Int) -> Int? {
-        let id = todaysEntries[filteredIndex].id
-        return entries.firstIndex(where: { $0.id == id })
     }
 }

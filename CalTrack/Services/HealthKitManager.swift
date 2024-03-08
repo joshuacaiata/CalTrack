@@ -16,6 +16,8 @@ class HealthKitManager {
     
     init(viewModel: TrackerViewModel) {
         self.viewModel = viewModel
+        requestAuthorization()
+        fetchWorkouts()
     }
     
     func requestAuthorization() {
@@ -35,23 +37,26 @@ class HealthKitManager {
         }
     }
     
-    func fetchWorkouts(completion: @escaping ([HKWorkout]?) -> Void) {
+    func fetchWorkouts() {
+        // Constructs a predicate to fetch samples from the current day up to now
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: Date(), options: .strictStartDate)
+        
+        // Defines how the query results should be sorted
         let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
         
-        let query = HKSampleQuery(sampleType: .workoutType(), predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { (query, samples, error) in
+        // Creates a query to fetch workout samples using specified predicate and sort descriptor
+        let query = HKSampleQuery(sampleType: HKSampleType.workoutType(), predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (_, samples, error) in
             
-            DispatchQueue.main.async {
-               
-                guard let workouts = samples as? [HKWorkout], error == nil else {
-                    completion(nil)
-                    return
-                }
-                
-                completion(workouts)
+            guard let workouts = samples as? [HKWorkout], error == nil else {
+                return
             }
+            
+            self?.addWorkoutEntries(workouts: workouts)
         }
         
         healthStore.execute(query)
+        
     }
     
     func addWorkoutEntries(workouts: [HKWorkout]) {
@@ -60,10 +65,18 @@ class HealthKitManager {
             
             let workoutName = workoutTypetoName(workout.workoutActivityType)
             
-            let workoutEntry = Entry(name: workoutName, consume: false, kcalCount: Int(calories), date: workout.startDate)
-            let workoutEntryVM = EntryViewModel(id: workoutEntry.id, name: workoutEntry.name, consume: workoutEntry.consume, kcalCount: workoutEntry.kcalCount, date: workoutEntry.date)
             
-            self.viewModel.entryList.addEntry(entry: workoutEntryVM)
+            DispatchQueue.main.async {
+                
+                let containsEntry = self.viewModel.entryList.entries.contains { $0.id == workout.uuid }
+                
+                if !containsEntry {
+                    let workoutEntry = Entry(id: workout.uuid, name: workoutName, consume: false, kcalCount: Int(calories), date: workout.startDate)
+                    let workoutEntryVM = EntryViewModel(id: workoutEntry.id, name: workoutEntry.name, consume: workoutEntry.consume, kcalCount: workoutEntry.kcalCount, date: workoutEntry.date)
+                    
+                    self.viewModel.entryList.addEntry(entry: workoutEntryVM)
+                }
+            }
         }
     }
     
@@ -134,6 +147,7 @@ class HealthKitManager {
         case .waterSports: return "Water Sports"
         case .wrestling: return "Wrestling"
         case .yoga: return "Yoga"
+        case .pilates: return "Pilates"
         default: return "Apple Workout"
         }
     }

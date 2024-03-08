@@ -27,6 +27,8 @@ class TrackerViewModel: ObservableObject {
     
     private var dateViewCancellables = Set<AnyCancellable>()
     
+    private var healthKitManager: HealthKitManager?
+    
     // Initializer for the class, allowing for dependency injection
     init(entryList: EntryListViewModel) {
         self.entryList = entryList
@@ -36,6 +38,8 @@ class TrackerViewModel: ObservableObject {
         if self.target == 0 {
             self.target = 2250
         }
+        
+        self.healthKitManager = HealthKitManager(viewModel: self)
                 
         // Calls a method to start observing changes in the entry list
         observeEntryListChanges()

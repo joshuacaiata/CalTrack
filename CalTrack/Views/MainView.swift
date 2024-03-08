@@ -56,6 +56,7 @@ struct MainView: View {
             }
             
         }
+        
         // to pull up the sheet when you click +
         .sheet(isPresented: $showingPopup) {
             AddEntryView(viewModel: entryListViewModel, showingPopup: $showingPopup)
