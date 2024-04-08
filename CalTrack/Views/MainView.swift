@@ -1,8 +1,8 @@
 //
 //  MainView.swift
-//  CalTrack
+//  CalTrack-Refactored
 //
-//  Created by Joshua Caiata on 2/14/24.
+//  Created by Joshua Caiata on 3/13/24.
 //
 
 import SwiftUI
@@ -11,29 +11,32 @@ import Foundation
 struct MainView: View {
     @State private var showingPopup = false
     
-    // This tracks information like calories burnt, consumed, etc.
-    @StateObject var trackerViewModel: TrackerViewModel
-    var entryListViewModel: EntryListViewModel
-    var dateViewModel: DateViewModel
+    @StateObject var dateManagerViewModel: DateManagerViewModel
+    var dayViewModel: DayViewModel { dateManagerViewModel.selectedDayViewModel }
     
     init() {
-        let dateVM = DateViewModel()
-        let entryListVM = EntryListViewModel(dateViewModel: dateVM)
-        let trackerVM = TrackerViewModel(entryList: entryListVM)
+        var dateManager: DateManager? = nil
+        if let loadedDateManager = PersistenceManager.shared.loadDateManager() {
+            dateManager = loadedDateManager
+        } else {
+            dateManager = DateManager(startingDate: Date())
+        }
         
-        _trackerViewModel = StateObject(wrappedValue: trackerVM)
-        self.entryListViewModel = entryListVM
-        self.dateViewModel = dateVM
+        PersistenceManager.shared.saveDateManager(dateManager: dateManager!)
+        
+        let dateManagerViewModel = DateManagerViewModel(dateManager: dateManager!)
+        dateManagerViewModel.setDay(to: Date())
+        
+        _dateManagerViewModel = StateObject(wrappedValue: dateManagerViewModel)
     }
-    
     
     var body: some View {
         VStack {
             // Call the summary view (big blue box)
-            SummaryView(trackerViewModel: trackerViewModel)
+            SummaryView(dateManagerViewModel: dateManagerViewModel)
             
             // Call the view for the entry list
-            EntryListView(viewModel: entryListViewModel)
+            EntryListView(dateManagerViewModel: dateManagerViewModel)
             
             Spacer()
             
@@ -48,7 +51,7 @@ struct MainView: View {
                         .font(.largeTitle)
                         .foregroundColor(.white)
                         .padding()
-                        .background(Circle().fill(AppColors.CalTrackNegative))
+                        .background(Circle().fill(AppColours.CalTrackNegative))
                 }
                 
                 Spacer()
@@ -59,13 +62,15 @@ struct MainView: View {
         
         // to pull up the sheet when you click +
         .sheet(isPresented: $showingPopup) {
-            AddEntryView(viewModel: entryListViewModel, showingPopup: $showingPopup)
+            AddEntryView(dateManagerViewModel: dateManagerViewModel, showingPopup: $showingPopup)
                 .preferredColorScheme(.light)
         }
         .background(Color.white)
     }
 }
 
+
 #Preview {
     MainView()
 }
+

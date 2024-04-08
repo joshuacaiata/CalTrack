@@ -1,14 +1,14 @@
 //
 //  UpdateTargetView.swift
-//  CalTrack
+//  CalTrack-Refactored
 //
-//  Created by Joshua Caiata on 2/23/24.
+//  Created by Joshua Caiata on 3/15/24.
 //
 
 import SwiftUI
 
 struct UpdateTargetView: View {
-    @ObservedObject var trackerViewModel: TrackerViewModel
+    @ObservedObject var dateManagerViewModel: DateManagerViewModel
     @Binding var isPresented: Bool
     
     var body: some View {
@@ -16,38 +16,32 @@ struct UpdateTargetView: View {
             VStack {
                 ZStack{
                     // shows the progress bar circle
-                    ProgressBarView(viewModel: trackerViewModel)
+                    ProgressBarView(dayViewModel: dateManagerViewModel.selectedDayViewModel)
                         .frame(width: 200, height: 200)
                     // displays calorie count, checking if user is over their limit or not
                     VStack{
-                        Text("\(trackerViewModel.net >= 0 ? trackerViewModel.net : -1 * trackerViewModel.net)")
+                        Text("\(dateManagerViewModel.selectedDayViewModel.info.netCalories >= 0 ? dateManagerViewModel.selectedDayViewModel.info.netCalories : -1 * dateManagerViewModel.selectedDayViewModel.info.netCalories)")
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                        Text(trackerViewModel.net >= 0 ? "kcal remaining" : "over")
+                        Text(dateManagerViewModel.selectedDayViewModel.info.netCalories >= 0 ? "kcal remaining" : "over")
                     }
                 }
                 .padding(.vertical, 50)
                 .padding(.horizontal, 70)
-                .background(AppColors.CalTrackLightBlue)
+                .background(AppColours.CalTrackLightBlue)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .padding(.bottom, 50)
                 
                 Text("Set Daily Calorie Goal")
                     .font(.title3)
                                 
-                TextField("Target calories", text: $trackerViewModel.targetString)
+                TextField("Target calories", text: $dateManagerViewModel.selectedDayViewModel.targetString)
                     .keyboardType(.numberPad)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .font(.title3)
                     .frame(width: 250)
                     .multilineTextAlignment(.center)
                     .bold()
-                    .onAppear {
-                        trackerViewModel.targetString = "\(trackerViewModel.target)"
-                    }
-                    .onChange(of: trackerViewModel.targetString) {
-                        trackerViewModel.updateTargetFromString()
-                    }
                 
                 Button(action: {
                     isPresented = false
@@ -57,7 +51,7 @@ struct UpdateTargetView: View {
                         .padding(.horizontal, 30)
                 }
                 .foregroundColor(.black)
-                .background(AppColors.CalTrackLightBlue)
+                .background(AppColours.CalTrackLightBlue)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.horizontal, 10)
                 .padding(.top, 20)
@@ -70,5 +64,5 @@ struct UpdateTargetView: View {
 }
 
 #Preview {
-    UpdateTargetView(trackerViewModel: TrackerViewModel(entryList: EntryListViewModel(dateViewModel: DateViewModel())), isPresented: .constant(true))
+    UpdateTargetView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())), isPresented: .constant(true))
 }

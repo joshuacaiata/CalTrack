@@ -1,15 +1,15 @@
 //
 //  AddEntryView.swift
-//  CalTrack
+//  CalTrack-Refactored
 //
-//  Created by Joshua Caiata on 2/18/24.
+//  Created by Joshua Caiata on 3/15/24.
 //
 
 import SwiftUI
 
 struct AddEntryView: View {
     // Observe the entrylist view model to add entries
-    @ObservedObject var viewModel: EntryListViewModel
+    @ObservedObject var dateManagerViewModel: DateManagerViewModel
     
     enum Selection {
         case food, activity
@@ -38,13 +38,18 @@ struct AddEntryView: View {
         // Find information regarding the entry
         let consume = selection == .food
         let kcalCount = Int(kcalText) ?? 0
-        let date = viewModel.dateViewModel.selectedDate
         
         // Create the entry and add it
-        let newEntry = Entry(id: UUID(), name: entryText, consume: consume, kcalCount: kcalCount, date: date)
-        let newEntryViewModel = EntryViewModel(id: newEntry.id, name: newEntry.name, consume: newEntry.consume, kcalCount: newEntry.kcalCount, date: newEntry.date)
+        let newEntry = Entry(id: UUID(), 
+                             name: entryText,
+                             consume: consume,
+                             kcalCount: kcalCount,
+                             apple: false)
         
-        viewModel.addEntry(entry: newEntryViewModel)
+        dateManagerViewModel
+            .selectedDayViewModel
+            .addEntry(entry: newEntry)
+        dateManagerViewModel.saveDate()
     }
     
     var body: some View {
@@ -60,11 +65,12 @@ struct AddEntryView: View {
                         .contentShape(Rectangle())
                 }
                 .foregroundColor(.black)
-                .background(selection == .food ? AppColors.CalTrackLightBlue : Color.white)
+                .background(selection == .food ? AppColours.CalTrackLightBlue : Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(selection == .food ? AppColors.CalTrackLightBlue : AppColors.CalTrackStroke, lineWidth: 2)
+                        .stroke(selection == .food ? AppColours.CalTrackLightBlue 
+                                : AppColours.CalTrackStroke, lineWidth: 2)
                 )
                 
                 // Create "activity" option button
@@ -77,11 +83,11 @@ struct AddEntryView: View {
                         .contentShape(Rectangle())
                 }
                 .foregroundColor(.black)
-                .background(selection == .activity ? AppColors.CalTrackLightBlue : Color.white)
+                .background(selection == .activity ? AppColours.CalTrackLightBlue : Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(selection == .activity ? AppColors.CalTrackLightBlue : AppColors.CalTrackStroke, lineWidth: 2)
+                        .stroke(selection == .activity ? AppColours.CalTrackLightBlue : AppColours.CalTrackStroke, lineWidth: 2)
                 )
             }
             .padding(.horizontal, 30)
@@ -100,7 +106,7 @@ struct AddEntryView: View {
                
                 Spacer()
             }
-            .border(AppColors.CalTrackStroke)
+            .border(AppColours.CalTrackStroke)
             .padding(.horizontal, 30)
             .padding(.top, 20)
             
@@ -119,7 +125,7 @@ struct AddEntryView: View {
                
                 Spacer()
             }
-            .border(AppColors.CalTrackStroke)
+            .border(AppColours.CalTrackStroke)
             .padding(.horizontal, 30)
             .padding(.top, 20)
             
@@ -135,7 +141,7 @@ struct AddEntryView: View {
                 .foregroundColor(.black)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(AppColors.CalTrackStroke, lineWidth: 2)
+                        .stroke(AppColours.CalTrackStroke, lineWidth: 2)
                 )
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.leading, 30)
@@ -151,7 +157,7 @@ struct AddEntryView: View {
                         .padding()
                 }
                 .foregroundColor(.black)
-                .background(AppColors.CalTrackLightBlue)
+                .background(AppColours.CalTrackLightBlue)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.trailing, 30)
                 .padding(.top, 20)
@@ -165,5 +171,6 @@ struct AddEntryView: View {
 }
 
 #Preview {
-    AddEntryView(viewModel: EntryListViewModel(dateViewModel: DateViewModel()), showingPopup: .constant(true))
+    
+    AddEntryView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())), showingPopup: .constant(true))
 }

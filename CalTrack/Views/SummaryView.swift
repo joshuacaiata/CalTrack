@@ -1,14 +1,15 @@
 //
 //  SummaryView.swift
-//  CalTrack
+//  CalTrack-Refactored
 //
-//  Created by Joshua Caiata on 2/18/24.
+//  Created by Joshua Caiata on 3/15/24.
 //
 
 import SwiftUI
 
+
 struct SummaryView: View {
-    @ObservedObject var trackerViewModel: TrackerViewModel
+    @ObservedObject var dateManagerViewModel: DateManagerViewModel
     @State private var showingUpdateTarget = false
     
     var body: some View {
@@ -21,7 +22,7 @@ struct SummaryView: View {
                     Spacer()
                     
                     Button(action: {
-                        trackerViewModel.entryList.dateViewModel.goToPreviousDay()
+                        dateManagerViewModel.goToPreviousDay()
                     }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20))
@@ -30,13 +31,13 @@ struct SummaryView: View {
                     }
                     
                     // shows the date
-                    Text("\(trackerViewModel.entryList.dateViewModel.formattedCurrentDate)")
+                    Text("\(dateManagerViewModel.selectedDayViewModel.info.formattedCurrentDate)")
                         .font(.title3)
                         .padding(.all, 10)
                         .frame(minWidth: 200)
                     
                     Button(action: {
-                        trackerViewModel.entryList.dateViewModel.goToNextDay()
+                        dateManagerViewModel.goToNextDay()
                     }) {
                         Image(systemName: "chevron.right")
                             .font(.system(size: 20))
@@ -50,14 +51,14 @@ struct SummaryView: View {
                 
                 ZStack{
                     // shows the progress bar circle
-                    ProgressBarView(viewModel: trackerViewModel)
+                    ProgressBarView(dayViewModel: dateManagerViewModel.selectedDayViewModel)
                         .frame(width: 200, height: 200)
                     // displays calorie count, checking if user is over their limit or not
                     VStack{
-                        Text("\(trackerViewModel.net >= 0 ? trackerViewModel.net : -1 * trackerViewModel.net)")
+                        Text("\(dateManagerViewModel.selectedDayViewModel.info.netCalories >= 0 ? dateManagerViewModel.selectedDayViewModel.info.netCalories : -1 * dateManagerViewModel.selectedDayViewModel.info.netCalories)")
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                        Text(trackerViewModel.net >= 0 ? "kcal remaining" : "over")
+                        Text(dateManagerViewModel.selectedDayViewModel.info.netCalories >= 0 ? "kcal remaining" : "over")
                     }
                 }
                 .onTapGesture {
@@ -68,19 +69,20 @@ struct SummaryView: View {
             .frame(maxWidth:.infinity)
             Spacer()
         }
-        .background(AppColors.CalTrackLightBlue)
+        .background(AppColours.CalTrackLightBlue)
         .foregroundColor(.black)
         .cornerRadius(15)
         .padding(.top, 25)
         .padding(.horizontal, 30)
         .padding(.bottom, 30)
         .sheet(isPresented: $showingUpdateTarget, content: {
-            UpdateTargetView(trackerViewModel: trackerViewModel, isPresented: $showingUpdateTarget)
+            UpdateTargetView(dateManagerViewModel: dateManagerViewModel, isPresented: $showingUpdateTarget)
                 .preferredColorScheme(.light)
         })
     }
 }
-
 #Preview {
-    SummaryView(trackerViewModel: TrackerViewModel(entryList: EntryListViewModel(dateViewModel: DateViewModel())))
+    SummaryView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())))
 }
+
+

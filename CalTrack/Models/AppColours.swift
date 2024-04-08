@@ -1,16 +1,19 @@
 //
-//  AppColors.swift
-//  CalTrack
+//  AppColours.swift
+//  CalTrack-Refactored
 //
-//  Created by Joshua Caiata on 2/14/24.
+//  Created by Joshua Caiata on 3/13/24.
 //
 
 import Foundation
 import SwiftUI
 
-struct AppColors {
+// This structure deals with colour management in the app
+// Parent: N/A
+// Children: N/A
+struct AppColours {
     static let CalTrackLightBlue = Color(red: 0.7843137254901961, green: 0.9607843137254902, blue: 1.0)
-    static let CalTrackYellow = Color(Color(red: 0.9607843137254902, green: 1.0, blue: 0.7843137254901961))
+    static let CalTrackYellow = Color(red: 0.9607843137254902, green: 1.0, blue: 0.7843137254901961)
     static let CalTrackPink = Color(red: 1.0, green: 0.7843137254901961, blue: 0.9607843137254902)
     static let CalTrackStroke = Color(red: 0.838, green: 0.838, blue: 0.838)
     static let CalTrackNegative = Color(red: 0.0, green: 0.2549019607843137, blue: 0.3137254901960784)

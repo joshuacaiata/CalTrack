@@ -1,59 +1,46 @@
 //
-//  DataManager.swift
-//  CalTrack
+//  PersistenceManager.swift
+//  CalTrack-Refactored
 //
-//  Created by Joshua Caiata on 2/21/24.
+//  Created by Joshua Caiata on 3/14/24.
 //
 
 import Foundation
 
-// Responsible for storing app's data
-// Only one instance of this class will exist during runtime
+
 class PersistenceManager {
-    
-    // Shared instance of DataManager to be used in the app
     static let shared = PersistenceManager()
     
-    // Saves the entrylist to the device's storage
-    // Takes the entry list
-    func saveEntryList(entryList: EntryList) {
-        // Try serializing into JSON data
+    func saveDateManager(dateManager: DateManager) {
         do {
-            // Define filepath
-            // use the getDocumentsDirectory() to find appropriate directory in the device
-            let filePath = getDocumentsDirectory().appendingPathComponent("entryList.json")
+            let filePath = getDocumentsDirectory().appendingPathComponent("dateManager.json")
             
-            // Try encoding the entryList into JSON
-            let data = try JSONEncoder().encode(entryList)
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
             
-            // Write JSON data to file system at filepath we calculated
-            // Set options to ensure atomic writing (all or nothing) and file protection
+            let data = try encoder.encode(dateManager)
+            
             try data.write(to: filePath, options: [.atomic, .completeFileProtection])
         } catch {
-            // If an error occurs, print an error
-            print("Error saving entry list: \(error)")
-
+            print("Error saving date manager: \(error)")
         }
     }
     
-    // This function loads the entry list from the device's storage
-    // Returns an optional entrylist object, returns nil if it fails
-    func loadEntryList() -> EntryList? {
+    func loadDateManager() -> DateManager? {
         do {
-            // Define the filepath where the data is stored
-            let filePath = getDocumentsDirectory().appendingPathComponent("entryList.json")
+            let filePath = getDocumentsDirectory().appendingPathComponent("dateManager.json")
             
-            // Try loading the JSON data from filesystem
             let data = try Data(contentsOf: filePath)
             
-            // Try to decode the JSON data into an EntryList object
-            let entryList = try JSONDecoder().decode(EntryList.self, from: data)
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
             
-            // If decoding was successful return the entrylist
-            return entryList
+            let dateManager = try decoder.decode(DateManager.self, from: data)
+            
+            return dateManager
+            
         } catch {
-            // Catch the error, print, and return nil
-            print("Error loading entry list: \(error)")
+            print("Error loading date manager: \(error)")
             return nil
         }
     }
@@ -80,4 +67,3 @@ class PersistenceManager {
         return url
     }
 }
-

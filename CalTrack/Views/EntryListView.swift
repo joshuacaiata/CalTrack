@@ -1,25 +1,33 @@
 //
-//  EntryList.swift
-//  CalTrack
+//  EntryListView.swift
+//  CalTrack-Refactored
 //
-//  Created by Joshua Caiata on 2/16/24.
+//  Created by Joshua Caiata on 3/15/24.
 //
 
 import SwiftUI
 
 struct EntryListView: View {
-    @ObservedObject var viewModel: EntryListViewModel
+    @ObservedObject var dateManagerViewModel: DateManagerViewModel
+    
+    init(dateManagerViewModel: DateManagerViewModel) {
+            self.dateManagerViewModel = dateManagerViewModel
+        }
     
     var body: some View {
         List {
+            EntryView(entry: Entry(id: UUID(), name: "Active Energy", consume: false, kcalCount: dateManagerViewModel.selectedDayViewModel.info.netHealthKitWorkoutCalories, apple: true))
+                .listRowInsets(EdgeInsets())
+            
             // iterate over everything in the entry list and make an entry view
-            ForEach(viewModel.todaysEntries, id: \.self) { entry in
-                EntryView(viewModel: entry)
+            ForEach(dateManagerViewModel.selectedDayViewModel.entryList.entries, id: \.self) { entry in
+                EntryView(entry: entry)
                     .listRowInsets(EdgeInsets())
             }
             // Handles deleting the item
             .onDelete { indexSet in
-                viewModel.deleteEntries(at: indexSet)
+                dateManagerViewModel.selectedDayViewModel.deleteEntries(at: indexSet)
+                dateManagerViewModel.saveDate()
             }
         }
         .listStyle(PlainListStyle())
@@ -29,5 +37,5 @@ struct EntryListView: View {
 }
 
 #Preview {
-    EntryListView(viewModel: EntryListViewModel(dateViewModel: DateViewModel()))
+    EntryListView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())))
 }

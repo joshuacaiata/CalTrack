@@ -1,29 +1,29 @@
 //
-//  Entry.swift
-//  CalTrack
+//  EntryView.swift
+//  CalTrack-Refactored
 //
-//  Created by Joshua Caiata on 2/16/24.
+//  Created by Joshua Caiata on 3/15/24.
 //
 
 import SwiftUI
 
 struct EntryView: View {
-    @ObservedObject var viewModel: EntryViewModel
-        
+    var entry: Entry
+            
     // Creates and styles each entry
     var body: some View {
         HStack{
-            Text("\(viewModel.name)")
+            Text("\(entry.name)")
                 .font(.title3)
             Spacer()
             HStack {
-                Text(viewModel.consume ? "-\(viewModel.kcalCount)" : "+\(viewModel.kcalCount)")
+                Text(entry.consume ? "-\(entry.kcalCount)" : "+\(entry.kcalCount)")
                     .font(.title3)
                     .fontWeight(.bold)
                 Text("kcal")
                     .font(.body)
             }
-            .foregroundColor(viewModel.calColor)
+            .foregroundColor(entry.calColor)
             .padding(.vertical, 20.0)
             .padding(.horizontal, 10)
         }
@@ -33,5 +33,5 @@ struct EntryView: View {
 }
 
 #Preview {
-    EntryView(viewModel: EntryViewModel(id: UUID(), name: "Apple", consume: true, kcalCount: 100, date: Date()))
+    EntryView(entry: Entry(id: UUID(), name: "Apple", consume: true, kcalCount: 100, apple: false))
 }

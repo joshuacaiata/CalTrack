@@ -1,8 +1,8 @@
 //
 //  HealthKitManager.swift
-//  CalTrack
+//  CalTrack-Refactored
 //
-//  Created by Joshua Caiata on 2/28/24.
+//  Created by Joshua Caiata on 3/15/24.
 //
 
 import Foundation
@@ -10,12 +10,12 @@ import HealthKit
 import SwiftUI
 
 class HealthKitManager {
-    @ObservedObject var viewModel: TrackerViewModel
+    var info: DayViewModel
     
     let healthStore = HKHealthStore()
     
-    init(viewModel: TrackerViewModel) {
-        self.viewModel = viewModel
+    init(info: DayViewModel) {
+        self.info = info
         requestAuthorization()
         fetchWorkouts()
     }
@@ -38,17 +38,15 @@ class HealthKitManager {
     }
     
     func fetchWorkouts() {
-        // Constructs a predicate to fetch samples from the current day up to now
-        let startOfDay = Calendar.current.startOfDay(for: Date())
-        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: Date(), options: .strictStartDate)
+        let startOfDay = Calendar.current.startOfDay(for: info.date)
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: info.date, options: .strictStartDate)
         
-        // Defines how the query results should be sorted
-        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: true)
         
-        // Creates a query to fetch workout samples using specified predicate and sort descriptor
         let query = HKSampleQuery(sampleType: HKSampleType.workoutType(), predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (_, samples, error) in
             
             guard let workouts = samples as? [HKWorkout], error == nil else {
+                print("workout fetch failed")
                 return
             }
             
@@ -56,7 +54,6 @@ class HealthKitManager {
         }
         
         healthStore.execute(query)
-        
     }
     
     func addWorkoutEntries(workouts: [HKWorkout]) {
@@ -64,20 +61,40 @@ class HealthKitManager {
             let calories = workout.totalEnergyBurned?.doubleValue(for: .kilocalorie()) ?? 0
             
             let workoutName = workoutTypetoName(workout.workoutActivityType)
-            
-            
+                        
             DispatchQueue.main.async {
                 
-                let containsEntry = self.viewModel.entryList.entries.contains { $0.id == workout.uuid }
+                let containsEntry = self.info.entryList.entries.contains {
+                    $0.id == workout.uuid
+                }
                 
                 if !containsEntry {
-                    let workoutEntry = Entry(id: workout.uuid, name: workoutName, consume: false, kcalCount: Int(calories), date: workout.startDate)
-                    let workoutEntryVM = EntryViewModel(id: workoutEntry.id, name: workoutEntry.name, consume: workoutEntry.consume, kcalCount: workoutEntry.kcalCount, date: workoutEntry.date)
-                    
-                    self.viewModel.entryList.addEntry(entry: workoutEntryVM)
+                    let workoutEntry = Entry(id: workout.uuid, name: workoutName, consume: false, kcalCount: Int(calories), apple: true)
+                                        
+                    self.info.addEntry(entry: workoutEntry)
                 }
             }
         }
+    }
+    
+    func fetchTotalActiveCalories(completion: @escaping (Int) -> Void) {
+        let dayStart = Calendar.current.startOfDay(for: info.date)
+        let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: dayStart)!
+        
+        let predicate = HKQuery.predicateForSamples(withStart: dayStart, end: dayEnd, options: .strictStartDate)
+        let activeEnergyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
+        
+        let query = HKStatisticsQuery(quantityType: activeEnergyType, quantitySamplePredicate: predicate, options: .cumulativeSum) { (_, result, error) in
+            guard error == nil, let sum = result?.sumQuantity() else {
+                completion(0)
+                return
+            }
+            
+            let totalCalories = Int(sum.doubleValue(for: HKUnit.kilocalorie()))
+            completion(totalCalories)
+        }
+        
+        healthStore.execute(query)
     }
     
     private func workoutTypetoName(_ workoutType: HKWorkoutActivityType) -> String {
@@ -110,15 +127,15 @@ class HealthKitManager {
         case .cycling: return "Cycling"
         case .badminton: return "Badminton"
         case .barre: return "Barre"
-        case .boxing: return "Boxing" // Traditional boxing
+        case .boxing: return "Boxing"
         case .climbing: return "Climbing"
         case .crossCountrySkiing: return "Cross Country Skiing"
-        case .crossTraining: return "Cross Training" // Any workout that doesn't fit another category
+        case .crossTraining: return "Cross Training"
         case .curling: return "Curling"
         case .dance: return "Dance"
         case .danceInspiredTraining: return "Dance Inspired Training"
         case .elliptical: return "Elliptical"
-        case .equestrianSports: return "Equestrian Sports" // Horseback riding
+        case .equestrianSports: return "Equestrian Sports"
         case .fishing: return "Fishing"
         case .functionalStrengthTraining: return "Functional Strength Training"
         case .golf: return "Golf"
@@ -127,17 +144,17 @@ class HealthKitManager {
         case .hiking: return "Hiking"
         case .hunting: return "Hunting"
         case .martialArts: return "Martial Arts"
-        case .mindAndBody: return "Mind and Body" // Yoga, meditation, etc.
-        case .mixedCardio: return "Mixed Cardio" // Various cardio exercises
+        case .mindAndBody: return "Mind and Body"
+        case .mixedCardio: return "Mixed Cardio"
         case .paddleSports: return "Paddle Sports"
-        case .play: return "Play" // General playing, active recreation
+        case .play: return "Play"
         case .racquetball: return "Racquetball"
         case .rowing: return "Rowing"
         case .sailing: return "Sailing"
         case .skatingSports: return "Skating Sports"
         case .snowSports: return "Snow Sports"
         case .squash: return "Squash"
-        case .stairClimbing: return "Stair Climbing" // Includes stair machines
+        case .stairClimbing: return "Stair Climbing"
         case .surfingSports: return "Surfing Sports"
         case .swimming: return "Swimming"
         case .tableTennis: return "Table Tennis"
