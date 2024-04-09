@@ -9,9 +9,7 @@ import Foundation
 import HealthKit
 import SwiftUI
 
-class HealthKitManager {
-    //var info: DayViewModel
-    
+class HealthKitManager {    
     let healthStore = HKHealthStore()
     
     init() {
@@ -40,6 +38,7 @@ class HealthKitManager {
     
     func fetchWorkouts(for date: Date, dayViewModel: DayViewModel) async -> Bool {
         await withCheckedContinuation { continuation in
+            print("getting workouts")
             let startOfDay = Calendar.current.startOfDay(for: date)
             let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: date, options: .strictStartDate)
             
@@ -53,6 +52,7 @@ class HealthKitManager {
                     return
                 }
                 
+                print("calling addworkoutentries")
                 self?.addWorkoutEntries(workouts: workouts, dayViewModel: dayViewModel)
                 continuation.resume(returning: true)
             }
@@ -60,24 +60,23 @@ class HealthKitManager {
             healthStore.execute(query)
         }
     }
-    
+
     func addWorkoutEntries(workouts: [HKWorkout], dayViewModel: DayViewModel) {
         for workout in workouts {
+            print("adding workout")
             let calories = workout.totalEnergyBurned?.doubleValue(for: .kilocalorie()) ?? 0
             
             let workoutName = workoutTypetoName(workout.workoutActivityType)
                         
-            DispatchQueue.main.async {
                 
-                let containsEntry = dayViewModel.entryList.entries.contains {
-                    $0.id == workout.uuid
-                }
-                
-                if !containsEntry {
-                    let workoutEntry = Entry(id: workout.uuid, name: workoutName, consume: false, kcalCount: Int(calories), apple: true)
-                                        
-                    dayViewModel.addEntry(entry: workoutEntry)
-                }
+            let containsEntry = dayViewModel.entryList.entries.contains {
+                $0.id == workout.uuid
+            }
+            
+            if !containsEntry {
+                let workoutEntry = Entry(id: workout.uuid, name: workoutName, consume: false, kcalCount: Int(calories), apple: true)
+                                    
+                dayViewModel.addEntry(entry: workoutEntry)
             }
         }
     }

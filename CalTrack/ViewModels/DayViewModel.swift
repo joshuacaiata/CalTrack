@@ -67,7 +67,7 @@ class DayViewModel: ObservableObject {
     }
     
     func updateCalculations() {
-        info.target = target
-        UserDefaults.standard.set(target, forKey: "targetCalories")
+        self.info.target = self.target
+        UserDefaults.standard.set(self.target, forKey: "targetCalories")
     }
 }

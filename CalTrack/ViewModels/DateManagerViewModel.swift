@@ -31,6 +31,13 @@ class DateManagerViewModel: ObservableObject {
         setDay(to: newDate)
     }
     
+    func saveDate() {
+        let normalizedDate = DateManager.normalizeDate(info.currentDate)
+        info.dates[normalizedDate] = selectedDayViewModel.info
+        info.selectedDay = selectedDayViewModel.info
+        PersistenceManager.shared.saveDateManager(dateManager: info)
+    }
+    
     func setDay(to date: Date) -> Void {
         self.info.currentDate = date
         let newDay = info.loadDay(date: date)
@@ -40,23 +47,14 @@ class DateManagerViewModel: ObservableObject {
         let newDayViewModel = DayViewModel(day: newDay)
         
         // Update the published selectedDayViewModel to trigger UI updates
-        DispatchQueue.main.async {
-            self.selectedDayViewModel = newDayViewModel
-            Task {
-                let totalActiveCalories = await self.selectedDayViewModel.configureHealthKitManager()
-                
-                let updatedInfo = self.selectedDayViewModel
-                updatedInfo.info.totalHealthKitActiveCalories = totalActiveCalories
-                self.selectedDayViewModel = updatedInfo
-            }
+        self.selectedDayViewModel = newDayViewModel
+        Task { @MainActor in
+            let totalActiveCalories = await self.selectedDayViewModel.configureHealthKitManager()
+            
+            let updatedInfo = self.selectedDayViewModel
+            updatedInfo.info.totalHealthKitActiveCalories = totalActiveCalories
+            self.selectedDayViewModel = updatedInfo
         }
         
-    }
-
-    func saveDate() {
-        let normalizedDate = DateManager.normalizeDate(info.currentDate)
-        info.dates[normalizedDate] = selectedDayViewModel.info
-        info.selectedDay = selectedDayViewModel.info
-        PersistenceManager.shared.saveDateManager(dateManager: info)
     }
 }
