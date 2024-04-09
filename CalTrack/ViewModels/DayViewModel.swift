@@ -42,21 +42,14 @@ class DayViewModel: ObservableObject {
         self.target = day.target
         self.targetString = "\(self.target)"
         
-        self.healthKitManager = HealthKitManager(info: self)
+        self.healthKitManager = HealthKitManager()
+    }
+    
+    func configureHealthKitManager() async -> Int {
+        let _ = await healthKitManager?.fetchWorkouts(for: info.date, dayViewModel: self)
+        let totalActiveCalories = await healthKitManager?.fetchTotalActiveCalories(for: info.date)
         
-        fetchTotalHealthKitActiveCalories()
-    }
-    
-    func updateTotalHealthKitActiveCalories(to newCount: Int) {
-        info.totalHealthKitActiveCalories = newCount
-    }
-    
-    func fetchTotalHealthKitActiveCalories() {
-        healthKitManager?.fetchTotalActiveCalories { [weak self] calories in
-            DispatchQueue.main.async {
-                self?.info.totalHealthKitActiveCalories = calories
-            }
-        }
+        return totalActiveCalories ?? 0
     }
     
     func addEntry(entry: Entry) {

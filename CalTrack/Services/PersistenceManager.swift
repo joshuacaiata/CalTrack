@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 class PersistenceManager {
     static let shared = PersistenceManager()
     

@@ -25,6 +25,7 @@ struct Day: Codable {
     var netCalories: Int {
         target + entryList.burnedCalories + totalHealthKitActiveCalories - entryList.consumedCalories - entryList.healthKitWorkoutCalories
     }
+    
     var percentComplete: Float {
         Float(entryList.consumedCalories) / (Float(target) + Float(entryList.burnedCalories) + Float(totalHealthKitActiveCalories) - Float(entryList.healthKitWorkoutCalories))
     }

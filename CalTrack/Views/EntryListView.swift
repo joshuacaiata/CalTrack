@@ -11,8 +11,8 @@ struct EntryListView: View {
     @ObservedObject var dateManagerViewModel: DateManagerViewModel
     
     init(dateManagerViewModel: DateManagerViewModel) {
-            self.dateManagerViewModel = dateManagerViewModel
-        }
+        self.dateManagerViewModel = dateManagerViewModel
+    }
     
     var body: some View {
         List {

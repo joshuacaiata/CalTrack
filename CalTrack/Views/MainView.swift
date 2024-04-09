@@ -15,6 +15,11 @@ struct MainView: View {
     var dayViewModel: DayViewModel { dateManagerViewModel.selectedDayViewModel }
     
     init() {
+        //let dateManager = DateManager(startingDate: Date())
+        //let dateManagerViewModel = DateManagerViewModel(dateManager: dateManager)
+        //_dateManagerViewModel = StateObject(wrappedValue: dateManagerViewModel)
+        
+        
         var dateManager: DateManager? = nil
         if let loadedDateManager = PersistenceManager.shared.loadDateManager() {
             dateManager = loadedDateManager
@@ -28,6 +33,7 @@ struct MainView: View {
         dateManagerViewModel.setDay(to: Date())
         
         _dateManagerViewModel = StateObject(wrappedValue: dateManagerViewModel)
+         
     }
     
     var body: some View {

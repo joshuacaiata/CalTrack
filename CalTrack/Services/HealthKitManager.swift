@@ -10,53 +10,58 @@ import HealthKit
 import SwiftUI
 
 class HealthKitManager {
-    var info: DayViewModel
+    //var info: DayViewModel
     
     let healthStore = HKHealthStore()
     
-    init(info: DayViewModel) {
-        self.info = info
-        requestAuthorization()
-        fetchWorkouts()
+    init() {
+        Task {
+            await requestAuthorization()
+        }
     }
     
-    func requestAuthorization() {
-        guard HKHealthStore.isHealthDataAvailable() else {
-            return
-        }
-        
-        let types: Set = [
-            HKQuantityType.workoutType(),
-            HKQuantityType(.activeEnergyBurned)
-        ]
-        
-        healthStore.requestAuthorization(toShare: nil, read: types) { (success, error) in
-            if !success {
+    func requestAuthorization() async -> Bool {
+        await withCheckedContinuation { continuation in
+            guard HKHealthStore.isHealthDataAvailable() else {
+                continuation.resume(returning: false)
                 return
+            }
+            
+            let types: Set = [
+                HKQuantityType.workoutType(),
+                HKQuantityType(.activeEnergyBurned)
+            ]
+            
+            healthStore.requestAuthorization(toShare: nil, read: types) { success, _ in
+                continuation.resume(returning: success)
             }
         }
     }
     
-    func fetchWorkouts() {
-        let startOfDay = Calendar.current.startOfDay(for: info.date)
-        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: info.date, options: .strictStartDate)
-        
-        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: true)
-        
-        let query = HKSampleQuery(sampleType: HKSampleType.workoutType(), predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (_, samples, error) in
+    func fetchWorkouts(for date: Date, dayViewModel: DayViewModel) async -> Bool {
+        await withCheckedContinuation { continuation in
+            let startOfDay = Calendar.current.startOfDay(for: date)
+            let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: date, options: .strictStartDate)
             
-            guard let workouts = samples as? [HKWorkout], error == nil else {
-                print("workout fetch failed")
-                return
+            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: true)
+            
+            let query = HKSampleQuery(sampleType: HKSampleType.workoutType(), predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (_, samples, error) in
+                
+                guard let workouts = samples as? [HKWorkout], error == nil else {
+                    print("workout fetch failed")
+                    continuation.resume(returning: false)
+                    return
+                }
+                
+                self?.addWorkoutEntries(workouts: workouts, dayViewModel: dayViewModel)
+                continuation.resume(returning: true)
             }
             
-            self?.addWorkoutEntries(workouts: workouts)
+            healthStore.execute(query)
         }
-        
-        healthStore.execute(query)
     }
     
-    func addWorkoutEntries(workouts: [HKWorkout]) {
+    func addWorkoutEntries(workouts: [HKWorkout], dayViewModel: DayViewModel) {
         for workout in workouts {
             let calories = workout.totalEnergyBurned?.doubleValue(for: .kilocalorie()) ?? 0
             
@@ -64,37 +69,39 @@ class HealthKitManager {
                         
             DispatchQueue.main.async {
                 
-                let containsEntry = self.info.entryList.entries.contains {
+                let containsEntry = dayViewModel.entryList.entries.contains {
                     $0.id == workout.uuid
                 }
                 
                 if !containsEntry {
                     let workoutEntry = Entry(id: workout.uuid, name: workoutName, consume: false, kcalCount: Int(calories), apple: true)
                                         
-                    self.info.addEntry(entry: workoutEntry)
+                    dayViewModel.addEntry(entry: workoutEntry)
                 }
             }
         }
     }
     
-    func fetchTotalActiveCalories(completion: @escaping (Int) -> Void) {
-        let dayStart = Calendar.current.startOfDay(for: info.date)
-        let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: dayStart)!
-        
-        let predicate = HKQuery.predicateForSamples(withStart: dayStart, end: dayEnd, options: .strictStartDate)
-        let activeEnergyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
-        
-        let query = HKStatisticsQuery(quantityType: activeEnergyType, quantitySamplePredicate: predicate, options: .cumulativeSum) { (_, result, error) in
-            guard error == nil, let sum = result?.sumQuantity() else {
-                completion(0)
-                return
+    func fetchTotalActiveCalories(for date: Date) async -> Int {
+        await withCheckedContinuation { continuation in
+            let dayStart = Calendar.current.startOfDay(for: date)
+            let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: dayStart)!
+            
+            let predicate = HKQuery.predicateForSamples(withStart: dayStart, end: dayEnd, options: .strictStartDate)
+            let activeEnergyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
+            
+            let query = HKStatisticsQuery(quantityType: activeEnergyType, quantitySamplePredicate: predicate, options: .cumulativeSum) { (_, result, error) in
+                guard error == nil, let sum = result?.sumQuantity() else {
+                    continuation.resume(returning: 0)
+                    return
+                }
+                
+                let totalCalories = Int(sum.doubleValue(for: HKUnit.kilocalorie()))
+                continuation.resume(returning: totalCalories)
             }
             
-            let totalCalories = Int(sum.doubleValue(for: HKUnit.kilocalorie()))
-            completion(totalCalories)
+            healthStore.execute(query)
         }
-        
-        healthStore.execute(query)
     }
     
     private func workoutTypetoName(_ workoutType: HKWorkoutActivityType) -> String {

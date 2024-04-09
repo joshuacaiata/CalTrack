@@ -19,13 +19,6 @@ class DateManagerViewModel: ObservableObject {
     init(dateManager: DateManager) {
         self.info = dateManager
         self.selectedDayViewModel = DayViewModel(day: dateManager.selectedDay)
-        
-        selectedDayViewModel.$info
-            .sink { [weak self] _ in
-                self?.objectWillChange.send()
-                self?.saveDate()
-            }
-            .store(in: &cancellables)
     }
     
     func goToNextDay() {
@@ -40,10 +33,26 @@ class DateManagerViewModel: ObservableObject {
     
     func setDay(to date: Date) -> Void {
         self.info.currentDate = date
-        self.info.selectedDay = info.loadDay(date: date)
-        self.selectedDayViewModel = DayViewModel(day: self.info.selectedDay)
+        let newDay = info.loadDay(date: date)
+        self.info.selectedDay = newDay
+        
+        // Create a new DayViewModel for the selected day
+        let newDayViewModel = DayViewModel(day: newDay)
+        
+        // Update the published selectedDayViewModel to trigger UI updates
+        DispatchQueue.main.async {
+            self.selectedDayViewModel = newDayViewModel
+            Task {
+                let totalActiveCalories = await self.selectedDayViewModel.configureHealthKitManager()
+                
+                let updatedInfo = self.selectedDayViewModel
+                updatedInfo.info.totalHealthKitActiveCalories = totalActiveCalories
+                self.selectedDayViewModel = updatedInfo
+            }
+        }
+        
     }
-    
+
     func saveDate() {
         let normalizedDate = DateManager.normalizeDate(info.currentDate)
         info.dates[normalizedDate] = selectedDayViewModel.info
