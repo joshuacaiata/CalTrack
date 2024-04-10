@@ -25,13 +25,13 @@ struct ProgressBarView: View {
             // Overlay a pink circle
             Circle()
                 // make it go around the correct percent
-                .trim(from: 0.0, to: CGFloat(min(max(dayViewModel.info.percentComplete, 0), 1)))
+                .trim(from: 0.0, to: CGFloat(min(max(dayViewModel.dayModel.percentComplete, 0), 1)))
                 .stroke(lineWidth: 10)
                 .foregroundColor(AppColours.CalTrackPink)
                 // rotate it
                 .rotationEffect(Angle(degrees: 270))
                 // make it have an animation on change
-                .animation(.linear, value: CGFloat(min(max(dayViewModel.info.percentComplete, 0), 1)))
+                .animation(.linear, value: CGFloat(min(max(dayViewModel.dayModel.percentComplete, 0), 1)))
         }
     }
 }

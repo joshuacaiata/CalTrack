@@ -36,30 +36,31 @@ class HealthKitManager {
         }
     }
     
-    func fetchWorkouts(for date: Date, dayViewModel: DayViewModel) async -> Bool {
+    @MainActor
+    func fetchWorkouts(for date: Date, dayViewModel: DayViewModel) async -> [HKWorkout] {
         await withCheckedContinuation { continuation in
-            print("getting workouts")
             let startOfDay = Calendar.current.startOfDay(for: date)
             let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: date, options: .strictStartDate)
             
             let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: true)
             
-            let query = HKSampleQuery(sampleType: HKSampleType.workoutType(), predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (_, samples, error) in
+            let query = HKSampleQuery(sampleType: HKSampleType.workoutType(), predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { (_, samples, error) in
                 
                 guard let workouts = samples as? [HKWorkout], error == nil else {
-                    print("workout fetch failed")
-                    continuation.resume(returning: false)
+                    print("Workout fetch failed")
+                    continuation.resume(returning: [])
                     return
                 }
                 
-                print("calling addworkoutentries")
-                self?.addWorkoutEntries(workouts: workouts, dayViewModel: dayViewModel)
-                continuation.resume(returning: true)
+                continuation.resume(returning: workouts)
             }
             
-            healthStore.execute(query)
+            Task { @MainActor in
+                healthStore.execute(query)
+            }
         }
     }
+
 
     func addWorkoutEntries(workouts: [HKWorkout], dayViewModel: DayViewModel) {
         for workout in workouts {

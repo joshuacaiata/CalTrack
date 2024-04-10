@@ -16,7 +16,7 @@ struct EntryListView: View {
     
     var body: some View {
         List {
-            EntryView(entry: Entry(id: UUID(), name: "Active Energy", consume: false, kcalCount: dateManagerViewModel.selectedDayViewModel.info.netHealthKitWorkoutCalories, apple: true))
+            EntryView(entry: Entry(id: UUID(), name: "Active Energy", consume: false, kcalCount: dateManagerViewModel.selectedDayViewModel.dayModel.netHealthKitWorkoutCalories, apple: true))
                 .listRowInsets(EdgeInsets())
             
             // iterate over everything in the entry list and make an entry view

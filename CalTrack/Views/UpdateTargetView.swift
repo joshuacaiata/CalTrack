@@ -20,10 +20,10 @@ struct UpdateTargetView: View {
                         .frame(width: 200, height: 200)
                     // displays calorie count, checking if user is over their limit or not
                     VStack{
-                        Text("\(dateManagerViewModel.selectedDayViewModel.info.netCalories >= 0 ? dateManagerViewModel.selectedDayViewModel.info.netCalories : -1 * dateManagerViewModel.selectedDayViewModel.info.netCalories)")
+                        Text("\(dateManagerViewModel.selectedDayViewModel.dayModel.netCalories >= 0 ? dateManagerViewModel.selectedDayViewModel.dayModel.netCalories : -1 * dateManagerViewModel.selectedDayViewModel.dayModel.netCalories)")
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                        Text(dateManagerViewModel.selectedDayViewModel.info.netCalories >= 0 ? "kcal remaining" : "over")
+                        Text(dateManagerViewModel.selectedDayViewModel.dayModel.netCalories >= 0 ? "kcal remaining" : "over")
                     }
                 }
                 .padding(.vertical, 50)

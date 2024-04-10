@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 class DayViewModel: ObservableObject {
-    @Published var info: Day
+    @Published var dayModel: Day
     
     // Default calorie goal
     @Published var target: Int {
@@ -32,12 +32,12 @@ class DayViewModel: ObservableObject {
     
     var healthKitManager: HealthKitManager?
     
-    var date: Date { info.date }
+    var date: Date { dayModel.date }
     
-    var entryList: EntryList { info.entryList }
+    var entryList: EntryList { dayModel.entryList }
     
     init(day: Day) {
-        self.info = day
+        self.dayModel = day
         
         self.target = day.target
         self.targetString = "\(self.target)"
@@ -46,28 +46,34 @@ class DayViewModel: ObservableObject {
     }
     
     func configureHealthKitManager() async -> Int {
-        let _ = await healthKitManager?.fetchWorkouts(for: info.date, dayViewModel: self)
-        let totalActiveCalories = await healthKitManager?.fetchTotalActiveCalories(for: info.date)
+        var totalActiveCalories: Int = 0
         
-        return totalActiveCalories ?? 0
+        let workouts = await healthKitManager?.fetchWorkouts(for: dayModel.date, dayViewModel: self) ?? []
+        totalActiveCalories = await healthKitManager?.fetchTotalActiveCalories(for: dayModel.date) ?? 0
+        
+        Task { @MainActor in
+            healthKitManager?.addWorkoutEntries(workouts: workouts, dayViewModel: self)
+        }
+        
+        return totalActiveCalories
     }
     
     func addEntry(entry: Entry) {
-        var updatedInfo = self.info
+        var updatedInfo = self.dayModel
         updatedInfo.entryList.entries.append(entry)
-        self.info = updatedInfo
+        self.dayModel = updatedInfo
     }
     
     func deleteEntries(at offsets: IndexSet) {
-        var updatedInfo = self.info
+        var updatedInfo = self.dayModel
         offsets.forEach { index in
             updatedInfo.entryList.entries.remove(at: index)
         }
-        self.info = updatedInfo // This triggers the publisher
+        self.dayModel = updatedInfo // This triggers the publisher
     }
     
     func updateCalculations() {
-        self.info.target = self.target
+        self.dayModel.target = self.target
         UserDefaults.standard.set(self.target, forKey: "targetCalories")
     }
 }

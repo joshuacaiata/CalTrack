@@ -9,15 +9,15 @@ import Foundation
 import Combine
 
 class DateManagerViewModel: ObservableObject {
-    @Published var info: DateManager
+    @Published var dateManagerModel: DateManager
     @Published var selectedDayViewModel: DayViewModel
     
-    var currentDate: Date { info.currentDate }
+    var currentDate: Date { dateManagerModel.currentDate }
     
     private var cancellables = Set<AnyCancellable>()
         
     init(dateManager: DateManager) {
-        self.info = dateManager
+        self.dateManagerModel = dateManager
         self.selectedDayViewModel = DayViewModel(day: dateManager.selectedDay)
     }
     
@@ -32,16 +32,16 @@ class DateManagerViewModel: ObservableObject {
     }
     
     func saveDate() {
-        let normalizedDate = DateManager.normalizeDate(info.currentDate)
-        info.dates[normalizedDate] = selectedDayViewModel.info
-        info.selectedDay = selectedDayViewModel.info
-        PersistenceManager.shared.saveDateManager(dateManager: info)
+        let normalizedDate = DateManager.normalizeDate(dateManagerModel.currentDate)
+        dateManagerModel.dates[normalizedDate] = selectedDayViewModel.dayModel
+        dateManagerModel.selectedDay = selectedDayViewModel.dayModel
+        PersistenceManager.shared.saveDateManager(dateManager: dateManagerModel)
     }
     
     func setDay(to date: Date) -> Void {
-        self.info.currentDate = date
-        let newDay = info.loadDay(date: date)
-        self.info.selectedDay = newDay
+        self.dateManagerModel.currentDate = date
+        let newDay = dateManagerModel.loadDay(date: date)
+        self.dateManagerModel.selectedDay = newDay
         
         // Create a new DayViewModel for the selected day
         let newDayViewModel = DayViewModel(day: newDay)
@@ -52,7 +52,7 @@ class DateManagerViewModel: ObservableObject {
             let totalActiveCalories = await self.selectedDayViewModel.configureHealthKitManager()
             
             let updatedInfo = self.selectedDayViewModel
-            updatedInfo.info.totalHealthKitActiveCalories = totalActiveCalories
+            updatedInfo.dayModel.totalHealthKitActiveCalories = totalActiveCalories
             self.selectedDayViewModel = updatedInfo
         }
         
