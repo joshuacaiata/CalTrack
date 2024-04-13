@@ -51,5 +51,5 @@ struct FoodView: View {
 }
 
 #Preview {
-    FoodView(item: FoodItem(name: "Apple"))
+    FoodView(item: FoodItem(name: "Apple", calories: 100))
 }

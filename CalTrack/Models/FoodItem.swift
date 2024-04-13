@@ -9,8 +9,10 @@ import Foundation
 
 class FoodItem: Decodable {
     var name: String
+    var calories: Int?
     
-    init(name: String) {
+    init(name: String, calories: Int?) {
         self.name = name
+        self.calories = calories
     }
 }
