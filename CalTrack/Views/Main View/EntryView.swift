@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct EntryView: View {
+
     var entry: Entry
             
     // Creates and styles each entry
