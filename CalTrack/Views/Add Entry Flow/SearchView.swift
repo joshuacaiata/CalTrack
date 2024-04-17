@@ -8,12 +8,26 @@
 import SwiftUI
 
 struct SearchView: View {
+    // Observe the entrylist view model to add entries
+    @ObservedObject var dateManagerViewModel: DateManagerViewModel
+    
     @State private var foodText: String = ""
     @State private var foodItems: [FoodItem] = []
     @State private var isLoading: Bool = false
     @State private var errorMessage: String?
+    @State private var showingAddFoodView = false
+    @State private var selectedFoodItem: FoodItem = FoodItem(name: "Apple", calories: 0)
     
     private var foodDataIntegration = FoodDataIntegration()
+    
+    init(dateManagerViewModel: DateManagerViewModel) {
+        self.dateManagerViewModel = dateManagerViewModel
+    }
+    
+    private func showFoodView(foodItem: FoodItem) {
+        self.selectedFoodItem = foodItem
+        self.showingAddFoodView = true
+    }
     
     var body: some View {
         HStack{
@@ -43,6 +57,9 @@ struct SearchView: View {
         .border(AppColours.CalTrackStroke)
         .padding(.horizontal, 30)
         .padding(.top, 20)
+        .sheet(isPresented: $showingAddFoodView) {
+            AddFoodView(foodItem: $selectedFoodItem, dateManagerViewModel: dateManagerViewModel)
+        }
         
         if let errorMessage = errorMessage {
             Text(errorMessage)
@@ -50,11 +67,17 @@ struct SearchView: View {
         }
         
         if isLoading {
+            Spacer()
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
+            Spacer()
         } else {
             List(foodItems, id: \.name) { item in
                 FoodView(item: item)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        showFoodView(foodItem: item)
+                    }
             }
             .listStyle(PlainListStyle())
             .padding(.top, 30)
@@ -64,5 +87,5 @@ struct SearchView: View {
 }
 
 #Preview {
-    SearchView()
+    SearchView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())))
 }

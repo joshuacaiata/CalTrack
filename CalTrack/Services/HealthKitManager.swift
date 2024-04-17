@@ -1,6 +1,6 @@
 //
 //  HealthKitManager.swift
-//  CalTrack-Refactored
+//  CalTrack
 //
 //  Created by Joshua Caiata on 3/15/24.
 //
@@ -36,52 +36,6 @@ class HealthKitManager {
         }
     }
     
-    @MainActor
-    func fetchWorkouts(for date: Date, dayViewModel: DayViewModel) async -> [HKWorkout] {
-        await withCheckedContinuation { continuation in
-            let startOfDay = Calendar.current.startOfDay(for: date)
-            let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: date, options: .strictStartDate)
-            
-            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: true)
-            
-            let query = HKSampleQuery(sampleType: HKSampleType.workoutType(), predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { (_, samples, error) in
-                
-                guard let workouts = samples as? [HKWorkout], error == nil else {
-                    print("Workout fetch failed")
-                    continuation.resume(returning: [])
-                    return
-                }
-                
-                continuation.resume(returning: workouts)
-            }
-            
-            Task { @MainActor in
-                healthStore.execute(query)
-            }
-        }
-    }
-
-
-    func addWorkoutEntries(workouts: [HKWorkout], dayViewModel: DayViewModel) {
-        for workout in workouts {
-            print("adding workout")
-            let calories = workout.totalEnergyBurned?.doubleValue(for: .kilocalorie()) ?? 0
-            
-            let workoutName = workoutTypetoName(workout.workoutActivityType)
-                        
-                
-            let containsEntry = dayViewModel.entryList.entries.contains {
-                $0.id == workout.uuid
-            }
-            
-            if !containsEntry {
-                let workoutEntry = Entry(id: workout.uuid, name: workoutName, consume: false, kcalCount: Int(calories), apple: true)
-                                    
-                dayViewModel.addEntry(entry: workoutEntry)
-            }
-        }
-    }
-    
     func fetchTotalActiveCalories(for date: Date) async -> Int {
         await withCheckedContinuation { continuation in
             let dayStart = Calendar.current.startOfDay(for: date)
@@ -104,6 +58,52 @@ class HealthKitManager {
         }
     }
     
+    /*
+     @MainActor
+     func fetchWorkouts(for date: Date, dayViewModel: DayViewModel) async -> [HKWorkout] {
+         await withCheckedContinuation { continuation in
+             let startOfDay = Calendar.current.startOfDay(for: date)
+             let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: date, options: .strictStartDate)
+             
+             let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: true)
+             
+             let query = HKSampleQuery(sampleType: HKSampleType.workoutType(), predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { (_, samples, error) in
+                 
+                 guard let workouts = samples as? [HKWorkout], error == nil else {
+                     print("Workout fetch failed")
+                     continuation.resume(returning: [])
+                     return
+                 }
+                 
+                 continuation.resume(returning: workouts)
+             }
+             
+             Task { @MainActor in
+                 healthStore.execute(query)
+             }
+         }
+     }
+
+
+     func addWorkoutEntries(workouts: [HKWorkout], dayViewModel: DayViewModel) {
+         for workout in workouts {
+             print("adding workout")
+             let calories = workout.totalEnergyBurned?.doubleValue(for: .kilocalorie()) ?? 0
+             
+             let workoutName = workoutTypetoName(workout.workoutActivityType)
+                         
+                 
+             let containsEntry = dayViewModel.entryList.entries.contains {
+                 $0.id == workout.uuid
+             }
+             
+             if !containsEntry {
+                 let workoutEntry = Entry(id: workout.uuid, name: workoutName, consume: false, kcalCount: Int(calories), apple: true)
+                                     
+                 dayViewModel.addEntry(entry: workoutEntry)
+             }
+         }
+     }
     private func workoutTypetoName(_ workoutType: HKWorkoutActivityType) -> String {
         switch workoutType {
         case .archery: return "Archery"
@@ -175,4 +175,5 @@ class HealthKitManager {
         default: return "Apple Workout"
         }
     }
+     */
 }

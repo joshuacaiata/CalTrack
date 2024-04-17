@@ -25,14 +25,15 @@ struct EntryView: View {
                     .font(.body)
             }
             .foregroundColor(entry.calColor)
-            .padding(.vertical, 20.0)
+            //.padding(.vertical, 20.0)
             .padding(.horizontal, 10)
         }
         .background(Color.white)
         .foregroundColor(.black)
+        .padding(.vertical, 20)
     }
 }
 
 #Preview {
-    EntryView(entry: Entry(id: UUID(), name: "Apple", consume: true, kcalCount: 100, apple: false))
+    EntryView(entry: Entry(id: UUID(), name: "Apple Strudle, Baked, with cheese and ham", consume: true, kcalCount: 100, apple: false))
 }

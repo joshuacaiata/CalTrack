@@ -39,7 +39,9 @@ class DayViewModel: ObservableObject {
     init(day: Day) {
         self.dayModel = day
         
-        self.target = day.target
+        let savedTarget = UserDefaults.standard.integer(forKey: "targetCalories")
+        
+        self.target = savedTarget
         self.targetString = "\(self.target)"
         
         self.healthKitManager = HealthKitManager()
@@ -48,12 +50,7 @@ class DayViewModel: ObservableObject {
     func configureHealthKitManager() async -> Int {
         var totalActiveCalories: Int = 0
         
-        let workouts = await healthKitManager?.fetchWorkouts(for: dayModel.date, dayViewModel: self) ?? []
         totalActiveCalories = await healthKitManager?.fetchTotalActiveCalories(for: dayModel.date) ?? 0
-        
-        Task { @MainActor in
-            healthKitManager?.addWorkoutEntries(workouts: workouts, dayViewModel: self)
-        }
         
         return totalActiveCalories
     }
@@ -73,7 +70,7 @@ class DayViewModel: ObservableObject {
     }
     
     func updateCalculations() {
-        self.dayModel.target = self.target
         UserDefaults.standard.set(self.target, forKey: "targetCalories")
+        self.dayModel.target = self.target
     }
 }

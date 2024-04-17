@@ -9,6 +9,7 @@ import Foundation
 
 class FoodDataIntegration {
     let apiKey = ProcessInfo.processInfo.environment["API_KEY"]
+    
 
     func fetchFoods(query: String) async throws -> [FoodItem] {
         let urlString = "https://api.nal.usda.gov/fdc/v1/foods/search?query=\(query)&dataType=Foundation,SR%20Legacy&pageSize=20&pageNumber=0&sortBy=dataType.keyword&sortOrder=asc&api_key=\(String(describing: self.apiKey))"
@@ -27,7 +28,6 @@ class FoodDataIntegration {
             return FoodItem(name: food.description, calories: Int(value))
         }
         
-        print(foodItems)
         return foodItems
     }
 }

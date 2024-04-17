@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8601354E2BC7251D007B3D81 /* newAddEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8601354D2BC7251D007B3D81 /* newAddEntryView.swift */; };
 		8622731A2B7C0D2700A8ED16 /* CalTrackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862273192B7C0D2700A8ED16 /* CalTrackApp.swift */; };
 		8622731E2B7C0D2800A8ED16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8622731D2B7C0D2800A8ED16 /* Assets.xcassets */; };
 		862273212B7C0D2800A8ED16 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 862273202B7C0D2800A8ED16 /* Preview Assets.xcassets */; };
@@ -33,10 +32,10 @@
 		865949432BC44BFA003BD541 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865949412BC44BFA003BD541 /* PersistenceManager.swift */; };
 		865949442BC44BFA003BD541 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865949422BC44BFA003BD541 /* HealthKitManager.swift */; };
 		86D3DCB52BCAD73F005F936F /* FoodsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D3DCB42BCAD73F005F936F /* FoodsResponse.swift */; };
+		86D3DCB92BCC9676005F936F /* AddFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D3DCB82BCC9676005F936F /* AddFoodView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8601354D2BC7251D007B3D81 /* newAddEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newAddEntryView.swift; sourceTree = "<group>"; };
 		862273162B7C0D2700A8ED16 /* CalTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		862273192B7C0D2700A8ED16 /* CalTrackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalTrackApp.swift; sourceTree = "<group>"; };
 		8622731D2B7C0D2800A8ED16 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -64,6 +63,7 @@
 		865949412BC44BFA003BD541 /* PersistenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		865949422BC44BFA003BD541 /* HealthKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		86D3DCB42BCAD73F005F936F /* FoodsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodsResponse.swift; sourceTree = "<group>"; };
+		86D3DCB82BCC9676005F936F /* AddFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,10 +101,10 @@
 			isa = PBXGroup;
 			children = (
 				865949322BC44BBF003BD541 /* AddEntryView.swift */,
-				8601354D2BC7251D007B3D81 /* newAddEntryView.swift */,
 				8652BFB42BC8A0A000BBE903 /* FoodView.swift */,
 				8652BFB82BC8AE1E00BBE903 /* SearchView.swift */,
 				8652BFBA2BC8AF2900BBE903 /* AddActivity.swift */,
+				86D3DCB82BCC9676005F936F /* AddFoodView.swift */,
 			);
 			path = "Add Entry Flow";
 			sourceTree = "<group>";
@@ -279,6 +279,7 @@
 				8659493F2BC44BE6003BD541 /* DateManagerViewModel.swift in Sources */,
 				86D3DCB52BCAD73F005F936F /* FoodsResponse.swift in Sources */,
 				8652BFB52BC8A0A000BBE903 /* FoodView.swift in Sources */,
+				86D3DCB92BCC9676005F936F /* AddFoodView.swift in Sources */,
 				8659493B2BC44BBF003BD541 /* MainView.swift in Sources */,
 				865949392BC44BBF003BD541 /* AddEntryView.swift in Sources */,
 				865949362BC44BBF003BD541 /* SummaryView.swift in Sources */,
@@ -289,7 +290,6 @@
 				865949442BC44BFA003BD541 /* HealthKitManager.swift in Sources */,
 				865949372BC44BBF003BD541 /* ProgressBarView.swift in Sources */,
 				8659492A2BC44B9D003BD541 /* Day.swift in Sources */,
-				8601354E2BC7251D007B3D81 /* newAddEntryView.swift in Sources */,
 				8659493A2BC44BBF003BD541 /* EntryListView.swift in Sources */,
 				865949382BC44BBF003BD541 /* UpdateTargetView.swift in Sources */,
 				8622731A2B7C0D2700A8ED16 /* CalTrackApp.swift in Sources */,

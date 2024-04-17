@@ -1,0 +1,121 @@
+//
+//  AddFoodView.swift
+//  CalTrack
+//
+//  Created by Joshua Caiata on 4/14/24.
+//
+
+import SwiftUI
+
+struct AddFoodView: View {
+    @Binding var foodItem: FoodItem
+    @State private var cals: Int
+    @State private var amount: String = "100"
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var dateManagerViewModel: DateManagerViewModel
+    
+    // Modify the constructor to accept a Binding<FoodItem>
+    init(foodItem: Binding<FoodItem>, dateManagerViewModel: DateManagerViewModel) {
+        self._foodItem = foodItem
+        self._cals = State(initialValue: foodItem.wrappedValue.calories ?? 0)
+        self.dateManagerViewModel = dateManagerViewModel
+    }
+    
+    private func updateCalories(_ newAmountString: String) {
+        if let newAmount = Int(newAmountString) {
+            self.cals = (self.foodItem.calories ?? 0) * newAmount / 100
+        } else {
+            self.cals = 0
+        }
+    }
+    
+    func addEntry() {
+        let newEntry = Entry(id: UUID(), name: foodItem.name, consume: true, kcalCount: cals, apple: false)
+        dateManagerViewModel.selectedDayViewModel.addEntry(entry: newEntry)
+        dateManagerViewModel.saveDate()
+    }
+
+    var body: some View {
+        VStack{
+            Text(self.foodItem.name.uppercased())
+                .fontWeight(.bold)
+                .padding(.top, 125)
+                .padding(.bottom, 50)
+                .padding(.horizontal, 30)
+            
+            
+            HStack(alignment:.bottom) {
+                Text("\(self.cals)")
+                    .font(.system(size: 96))
+                    .bold()
+                
+                
+                Text("kcal")
+                    .baselineOffset(18)
+            }
+            .foregroundStyle(AppColours.CalTrackNegative)
+            .onAppear {
+                cals = foodItem.calories ?? 0
+                updateCalories(amount)
+            }
+            
+            Spacer()
+                        
+            HStack {
+                Text("Amount in grams:")
+                    .padding(.leading, 30)
+                Spacer()
+                TextField("100", text: $amount)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 10)
+                    .frame(width: 100)
+                    .border(AppColours.CalTrackStroke)
+                    .keyboardType(.numberPad)
+                    .onChange(of: amount) {oldValue, newValue in
+                        updateCalories(newValue)
+                    }
+                Text("g")
+                    .padding(.trailing, 30)
+            }
+            .padding(.top, 75)
+            .padding(.bottom, 50)
+        
+            HStack {
+                // This calls the add entry and closes the sheet
+                Button(action: {
+                    dismiss()
+                }) {
+                    Text("Cancel")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+                .foregroundColor(.black)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(AppColours.CalTrackStroke, lineWidth: 2)
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .padding(.leading, 30)
+                
+                // This calls the add entry and closes the sheet
+                Button(action: {
+                    addEntry()
+                    dismiss()
+                }) {
+                    Text("Confirm")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+                .foregroundColor(.black)
+                .background(AppColours.CalTrackLightBlue)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .padding(.trailing, 30)
+                
+            }
+        }
+    }
+}
+
+#Preview {
+    AddFoodView(foodItem: .constant(FoodItem(name: "Granny Smith Apple", calories: 120)), dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())))
+}

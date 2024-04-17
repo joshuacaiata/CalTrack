@@ -20,10 +20,6 @@ struct FoodView: View {
                 .font(.title3)
             
             Spacer()
-            
-            Text("SELECT")
-                .font(.footnote)
-                .fontWeight(.bold)
         }
     }
     

@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct AddActivity: View {
+    @ObservedObject var dateManagerViewModel: DateManagerViewModel
+    
+    @Environment(\.dismiss) var dismiss
+    
     // This controls the display in the boxes
     @State private var entryText: String = ""
     @State private var kcalText: String = ""
@@ -15,6 +19,32 @@ struct AddActivity: View {
     // This controls what to pass to the new entry
     @State private var entryName: String = ""
     @State private var kcalCount: String = ""
+    
+    init(dateManagerViewModel: DateManagerViewModel) {
+        self.dateManagerViewModel = dateManagerViewModel
+    }
+    
+     func addEntry() {
+         if entryText.isEmpty {
+             return
+         }
+         
+         // Find information regarding the entry
+         let kcalCount = Int(kcalText) ?? 0
+         
+         // Create the entry and add it
+         let newEntry = Entry(id: UUID(),
+                              name: entryText,
+                              consume: false,
+                              kcalCount: kcalCount,
+                              apple: false)
+         
+         dateManagerViewModel
+             .selectedDayViewModel
+             .addEntry(entry: newEntry)
+         dateManagerViewModel.saveDate()
+         dismiss()
+     }
     
     var body: some View {
         VStack {
@@ -59,6 +89,7 @@ struct AddActivity: View {
             
             
             Button(action: {
+                addEntry()
             }) {
                 Text("Confirm")
                     .frame(maxWidth: .infinity)
@@ -76,5 +107,5 @@ struct AddActivity: View {
 }
 
 #Preview {
-    AddActivity()
+    AddActivity(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())))
 }

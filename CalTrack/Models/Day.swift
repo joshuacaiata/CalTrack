@@ -39,6 +39,7 @@ struct Day: Codable {
     init(date: Date) {
         self.date = date
         self.entryList = EntryList()
+        self.target = UserDefaults.standard.integer(forKey: "targetCalories").nonZeroDefault(2250)
     }
 }
 

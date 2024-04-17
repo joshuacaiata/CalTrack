@@ -9,7 +9,7 @@ import SwiftUI
 import Foundation
 
 struct MainView: View {
-    @State private var showingPopup = false
+    @State private var showingAddEntryView = false
     
     @StateObject var dateManagerViewModel: DateManagerViewModel
     var dayViewModel: DayViewModel { dateManagerViewModel.selectedDayViewModel }
@@ -31,39 +31,32 @@ struct MainView: View {
     }
     
     var body: some View {
-        VStack {
-            // Call the summary view (big blue box)
-            SummaryView(dateManagerViewModel: dateManagerViewModel)
-            
-            // Call the view for the entry list
-            EntryListView(dateManagerViewModel: dateManagerViewModel)
-            
-            Spacer()
-            
-            HStack {
+        NavigationStack {
+            VStack {
+                // Call the summary view (big blue box)
+                SummaryView(dateManagerViewModel: dateManagerViewModel)
+                
+                // Call the view for the entry list
+                EntryListView(dateManagerViewModel: dateManagerViewModel)
+                
                 Spacer()
                 
-                // Button to add entries
-                Button(action: {
-                    showingPopup = true
-                }) {
-                    Image(systemName: "plus")
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Circle().fill(AppColours.CalTrackNegative))
+                HStack {
+                    Spacer()
+                    
+                    NavigationLink(destination: AddEntryView(dateManagerViewModel: dateManagerViewModel), label: {
+                        Image(systemName: "plus")
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Circle().fill(AppColours.CalTrackNegative))
+                    })
+
+                    Spacer()
+                    
                 }
                 
-                Spacer()
-
             }
-            
-        }
-        
-        // to pull up the sheet when you click +
-        .sheet(isPresented: $showingPopup) {
-            AddEntryView(dateManagerViewModel: dateManagerViewModel, showingPopup: $showingPopup)
-                .preferredColorScheme(.light)
         }
         .background(Color.white)
     }
