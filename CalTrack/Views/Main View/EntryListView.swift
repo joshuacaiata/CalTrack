@@ -16,8 +16,16 @@ struct EntryListView: View {
     
     var body: some View {
         List {
-            EntryView(entry: Entry(id: UUID(), name: "Active Energy", consume: false, kcalCount: dateManagerViewModel.selectedDayViewModel.dayModel.netHealthKitWorkoutCalories, apple: true))
-                .listRowInsets(EdgeInsets())
+            if let healthKitManager = dateManagerViewModel.selectedDayViewModel.healthKitManager, 
+                healthKitManager.healthKitAuthorized {
+                EntryView(entry: Entry(id: UUID(), 
+                          name: "Active Energy",
+                          consume: false,
+                          kcalCount: dateManagerViewModel.selectedDayViewModel.dayModel.netHealthKitWorkoutCalories,
+                          apple: true))
+                    .listRowInsets(EdgeInsets())
+            }
+
             
             // iterate over everything in the entry list and make an entry view
             ForEach(dateManagerViewModel.selectedDayViewModel.entryList.entries, id: \.self) { entry in

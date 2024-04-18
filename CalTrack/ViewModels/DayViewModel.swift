@@ -39,7 +39,7 @@ class DayViewModel: ObservableObject {
     init(day: Day) {
         self.dayModel = day
         
-        let savedTarget = UserDefaults.standard.integer(forKey: "targetCalories")
+        let savedTarget = UserDefaults.standard.integer(forKey: "targetCalories").nonZeroDefault(2250)
         
         self.target = savedTarget
         self.targetString = "\(self.target)"
