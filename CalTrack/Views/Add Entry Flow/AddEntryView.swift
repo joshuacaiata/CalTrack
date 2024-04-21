@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Contains the views for searching for foods, adding foods, and adding activity
 struct AddEntryView: View {
     // Observe the entrylist view model to add entries
     @ObservedObject var dateManagerViewModel: DateManagerViewModel

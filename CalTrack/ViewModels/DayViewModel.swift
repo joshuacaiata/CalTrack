@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+// ViewModel for the Day class
 class DayViewModel: ObservableObject {
     @Published var dayModel: Day
     
@@ -15,25 +16,26 @@ class DayViewModel: ObservableObject {
     @Published var target: Int {
         didSet {
             UserDefaults.standard.set(target, forKey: "targetCalories")
-            updateCalculations()
+            self.dayModel.target = self.target
         }
     }
     
+    // Target string for typing into the textbok
     @Published var targetString: String = "2250" {
         didSet {
             if let newTarget = Int(targetString) {
                 target = newTarget
-                updateCalculations()
             }
         }
     }
     
-    private var cancellables = Set<AnyCancellable>()
-    
+    // HealthKit service
     var healthKitManager: HealthKitManager?
     
+    // Date of the Day model
     var date: Date { dayModel.date }
     
+    // Day's entries
     var entryList: EntryList { dayModel.entryList }
     
     init(day: Day) {
@@ -45,14 +47,6 @@ class DayViewModel: ObservableObject {
         self.targetString = "\(self.target)"
         
         self.healthKitManager = HealthKitManager()
-    }
-    
-    func configureHealthKitManager() async -> Int {
-        var totalActiveCalories: Int = 0
-        
-        totalActiveCalories = await healthKitManager?.fetchTotalActiveCalories(for: dayModel.date) ?? 0
-        
-        return totalActiveCalories
     }
     
     func addEntry(entry: Entry) {
@@ -67,10 +61,5 @@ class DayViewModel: ObservableObject {
             updatedInfo.entryList.entries.remove(at: index)
         }
         self.dayModel = updatedInfo // This triggers the publisher
-    }
-    
-    func updateCalculations() {
-        UserDefaults.standard.set(self.target, forKey: "targetCalories")
-        self.dayModel.target = self.target
     }
 }

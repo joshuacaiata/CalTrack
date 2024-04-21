@@ -157,6 +157,7 @@
 				865949262BC44B9D003BD541 /* Entry.swift */,
 				865949272BC44B9D003BD541 /* EntryList.swift */,
 				8652BFB62BC8A0C300BBE903 /* FoodItem.swift */,
+				86D3DCB42BCAD73F005F936F /* FoodsResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -183,20 +184,11 @@
 		86B711042B8652FF003943F2 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				86D3DCB32BCAD727005F936F /* Food Integration */,
+				8652BFBC2BC9BDC200BBE903 /* FoodDataIntegration.swift */,
 				865949422BC44BFA003BD541 /* HealthKitManager.swift */,
 				865949412BC44BFA003BD541 /* PersistenceManager.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		86D3DCB32BCAD727005F936F /* Food Integration */ = {
-			isa = PBXGroup;
-			children = (
-				8652BFBC2BC9BDC200BBE903 /* FoodDataIntegration.swift */,
-				86D3DCB42BCAD73F005F936F /* FoodsResponse.swift */,
-			);
-			path = "Food Integration";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

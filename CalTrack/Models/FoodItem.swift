@@ -7,6 +7,10 @@
 
 import Foundation
 
+/*
+To store information of a food item that will appear as a result of a search
+The Food Data API will call will convert FoodsResponse into this class, FoodItem
+*/
 class FoodItem: Decodable, Equatable {
     var name: String
     var calories: Int?

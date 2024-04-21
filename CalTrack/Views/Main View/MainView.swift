@@ -8,6 +8,8 @@
 import SwiftUI
 import Foundation
 
+// The main view
+// Contains the SummaryView, EntryListView, and also leads to the add entry flow
 struct MainView: View {
     @State private var showingAddEntryView = false
     

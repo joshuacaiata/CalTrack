@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// View for the progress bar
 struct ProgressBarView: View {
     @ObservedObject var dayViewModel: DayViewModel
     

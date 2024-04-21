@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Basically a list entries using entryviews
 struct EntryListView: View {
     @ObservedObject var dateManagerViewModel: DateManagerViewModel
     
@@ -16,12 +17,12 @@ struct EntryListView: View {
     
     var body: some View {
         List {
-            if let healthKitManager = dateManagerViewModel.selectedDayViewModel.healthKitManager, 
-                healthKitManager.healthKitAuthorized {
-                EntryView(entry: Entry(id: UUID(), 
+            // If we have healthkit workout calories then we will add them 
+            if dateManagerViewModel.selectedDayViewModel.dayModel.totalHealthKitActiveCalories != 0 {
+                EntryView(entry: Entry(id: UUID(),
                           name: "Active Energy",
                           consume: false,
-                          kcalCount: dateManagerViewModel.selectedDayViewModel.dayModel.netHealthKitWorkoutCalories,
+                          kcalCount: dateManagerViewModel.selectedDayViewModel.dayModel.totalHealthKitActiveCalories,
                           apple: true))
                     .listRowInsets(EdgeInsets())
             }

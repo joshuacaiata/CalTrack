@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// View for each individual result from search
 struct FoodView: View {
     var item: FoodItem
     
@@ -22,28 +23,6 @@ struct FoodView: View {
             Spacer()
         }
     }
-    
-    /*
-     var body: some View {
-         HStack{
-             Text("\(entry.name)")
-                 .font(.title3)
-             Spacer()
-             HStack {
-                 Text(entry.consume ? "-\(entry.kcalCount)" : "+\(entry.kcalCount)")
-                     .font(.title3)
-                     .fontWeight(.bold)
-                 Text("kcal")
-                     .font(.body)
-             }
-             .foregroundColor(entry.calColor)
-             .padding(.vertical, 20.0)
-             .padding(.horizontal, 10)
-         }
-         .background(Color.white)
-         .foregroundColor(.black)
-     }
-     */
 }
 
 #Preview {

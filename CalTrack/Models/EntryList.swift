@@ -14,6 +14,7 @@ import Foundation
 struct EntryList: Codable {
     var entries: [Entry]
     
+    // Calculate number of consumed calories
     var consumedCalories: Int {
         var total = 0
         
@@ -26,6 +27,7 @@ struct EntryList: Codable {
         return total
     }
     
+    // Calculate number of burned calories
     var burnedCalories: Int {
         var total = 0
         
@@ -38,6 +40,7 @@ struct EntryList: Codable {
         return total
     }
     
+    // Calculates calories from healthkid
     var healthKitWorkoutCalories: Int {
         var total = 0
         

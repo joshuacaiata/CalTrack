@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-
+// The view containing the sate, the progress bar / circle, and the remaining calories for the day
 struct SummaryView: View {
     @ObservedObject var dateManagerViewModel: DateManagerViewModel
     @State private var showingUpdateTarget = false

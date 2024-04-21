@@ -10,6 +10,7 @@ import Foundation
 class PersistenceManager {
     static let shared = PersistenceManager()
     
+    // Save to memory
     func saveDateManager(dateManager: DateManager) {
         do {
             let filePath = getDocumentsDirectory().appendingPathComponent("dateManager.json")
@@ -25,6 +26,7 @@ class PersistenceManager {
         }
     }
     
+    // Load from memory
     func loadDateManager() -> DateManager? {
         do {
             let filePath = getDocumentsDirectory().appendingPathComponent("dateManager.json")

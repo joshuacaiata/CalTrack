@@ -8,6 +8,11 @@
 import Foundation
 import Combine
 
+/*
+ Manages the different days and storing them in memory
+ Parent: None
+ Children: Day
+ */
 struct DateManager: Codable {
     var selectedDay: Day
     var currentDate: Date
@@ -16,40 +21,32 @@ struct DateManager: Codable {
     init(startingDate: Date) {
         self.currentDate = startingDate
 
-        // Move the normalization function call outside of the direct use of `self`.
+        // Normalize the day to be the start of the day so we always call equivalent things
         let normalizedStartDate = DateManager.normalizeDate(startingDate)
-
+        
+        // If we don't have that day already, then create one
         if self.dates[normalizedStartDate] == nil {
             self.dates[normalizedStartDate] = Day(date: startingDate)
         }
-
-        // Now, it is safe to use `normalizedStartDate` because it doesn't rely on `self`.
+        
+        // Set selected day to the day stored at the startingDate in dates
         self.selectedDay = self.dates[normalizedStartDate] ?? Day(date: startingDate)
     }
-
+    
+    // Set the date to the start of the date, ignore time
     static func normalizeDate(_ date: Date) -> Date {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day], from: date)
         let normalizedDate = calendar.date(from: components)!
         return normalizedDate
     }
-
+    
+    // Load a day from the dictionary
     mutating func loadDay(date: Date) -> Day {
         let normalizedDate = DateManager.normalizeDate(date)
         if dates[normalizedDate] == nil {
             // Create a new Day instance for the given date
-            var newDay = Day(date: date)
-            
-            // Calculate the previous day
-            let calendar = Calendar.current
-            if let previousDate = calendar.date(byAdding: .day, value: -1, to: date) {
-                let normalizedPreviousDate = DateManager.normalizeDate(previousDate)
-                
-                // If the previous day exists, set the new day's target to the previous day's target
-                if let previousDay = dates[normalizedPreviousDate] {
-                    newDay.target = previousDay.target
-                }
-            }
+            let newDay = Day(date: date)
             
             // Save the new Day instance in the dictionary
             dates[normalizedDate] = newDay

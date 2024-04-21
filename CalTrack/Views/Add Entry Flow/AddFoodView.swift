@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// View for adding the food, contains the dateManagerViewModel to add the entry and a FoodItem
+// To calculate the calories needed
 struct AddFoodView: View {
     @Binding var foodItem: FoodItem
     @State private var cals: Int
@@ -21,6 +23,7 @@ struct AddFoodView: View {
         self.dateManagerViewModel = dateManagerViewModel
     }
     
+    // Function for updating the calories based on entered weight
     private func updateCalories(_ newAmountString: String) {
         if let newAmount = Int(newAmountString) {
             self.cals = (self.foodItem.calories ?? 0) * newAmount / 100
@@ -29,6 +32,7 @@ struct AddFoodView: View {
         }
     }
     
+    // Adds entry when confirm is clicked
     func addEntry() {
         let newEntry = Entry(id: UUID(), name: foodItem.name, consume: true, kcalCount: cals, apple: false)
         dateManagerViewModel.selectedDayViewModel.addEntry(entry: newEntry)

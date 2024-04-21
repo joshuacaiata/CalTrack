@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// Updates the target calories
+// Allows you to edit the calories and it has a live update of the calories remaining for today with the new calorie goal
 struct UpdateTargetView: View {
     @ObservedObject var dateManagerViewModel: DateManagerViewModel
     @Binding var isPresented: Bool

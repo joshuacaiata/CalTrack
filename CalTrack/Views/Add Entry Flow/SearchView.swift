@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// The view for searching the food database
 struct SearchView: View {
     // Observe the entrylist view model to add entries
     @ObservedObject var dateManagerViewModel: DateManagerViewModel
@@ -24,6 +25,7 @@ struct SearchView: View {
         self.dateManagerViewModel = dateManagerViewModel
     }
     
+    // Show the AddFoodView view
     private func showFoodView(foodItem: FoodItem) {
         self.selectedFoodItem = foodItem
         self.showingAddFoodView = true

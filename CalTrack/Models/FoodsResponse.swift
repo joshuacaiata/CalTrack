@@ -7,6 +7,7 @@
 
 import Foundation
 
+// This is the response from the Food Data API call
 struct FoodsResponse: Decodable {
     struct Food: Decodable {
         let description: String
