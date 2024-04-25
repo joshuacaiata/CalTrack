@@ -38,5 +38,5 @@ struct ProgressBarView: View {
 }
 
 #Preview {
-    ProgressBarView(dayViewModel: DayViewModel(day: Day(date: Date())))
+    ProgressBarView(dayViewModel: DayViewModel(day: Day(date: Date()), database: DatabaseManager()))
 }

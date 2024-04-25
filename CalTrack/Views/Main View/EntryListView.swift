@@ -21,6 +21,7 @@ struct EntryListView: View {
             if dateManagerViewModel.selectedDayViewModel.dayModel.totalHealthKitActiveCalories != 0 {
                 EntryView(entry: Entry(id: UUID(),
                           name: "Active Energy",
+                          date: dateManagerViewModel.currentDate,
                           consume: false,
                           kcalCount: dateManagerViewModel.selectedDayViewModel.dayModel.totalHealthKitActiveCalories,
                           apple: true))
@@ -46,5 +47,5 @@ struct EntryListView: View {
 }
 
 #Preview {
-    EntryListView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())))
+    EntryListView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date()), database: DatabaseManager()))
 }

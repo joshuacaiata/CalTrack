@@ -82,7 +82,7 @@ struct SummaryView: View {
     }
 }
 #Preview {
-    SummaryView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())))
+    SummaryView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date()), database: DatabaseManager()))
 }
 
 

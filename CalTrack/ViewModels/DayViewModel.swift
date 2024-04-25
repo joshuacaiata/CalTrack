@@ -38,10 +38,14 @@ class DayViewModel: ObservableObject {
     // Day's entries
     var entryList: EntryList { dayModel.entryList }
     
-    init(day: Day) {
+    var database: DatabaseManager
+    
+    init(day: Day, database: DatabaseManager) {
         self.dayModel = day
         
         let savedTarget = UserDefaults.standard.integer(forKey: "targetCalories").nonZeroDefault(2250)
+        
+        self.database = database
         
         self.target = savedTarget
         self.targetString = "\(self.target)"
@@ -53,13 +57,26 @@ class DayViewModel: ObservableObject {
         var updatedInfo = self.dayModel
         updatedInfo.entryList.entries.append(entry)
         self.dayModel = updatedInfo
+        
+        if entry.consume {
+            database.insertEntry(entry: entry)
+            database.printDatabase()
+        }
     }
     
     func deleteEntries(at offsets: IndexSet) {
         var updatedInfo = self.dayModel
+        
+        let idsToDelete = offsets.map { updatedInfo.entryList.entries[$0].id }
+        
         offsets.forEach { index in
             updatedInfo.entryList.entries.remove(at: index)
         }
         self.dayModel = updatedInfo // This triggers the publisher
+        
+        idsToDelete.forEach { id in
+            database.deleteEntry(withId: id)
+        }
+        database.printDatabase()
     }
 }

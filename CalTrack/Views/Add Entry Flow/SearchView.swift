@@ -89,5 +89,5 @@ struct SearchView: View {
 }
 
 #Preview {
-    SearchView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())))
+    SearchView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date()), database: DatabaseManager()))
 }

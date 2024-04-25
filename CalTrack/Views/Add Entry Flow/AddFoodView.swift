@@ -34,7 +34,9 @@ struct AddFoodView: View {
     
     // Adds entry when confirm is clicked
     func addEntry() {
-        let newEntry = Entry(id: UUID(), name: foodItem.name, consume: true, kcalCount: cals, apple: false)
+        let newEntry = Entry(id: UUID(), name: foodItem.name, 
+                             date: dateManagerViewModel.currentDate, consume: true,
+                             kcalCount: cals, apple: false)
         dateManagerViewModel.selectedDayViewModel.addEntry(entry: newEntry)
         dateManagerViewModel.saveDate()
     }
@@ -121,5 +123,5 @@ struct AddFoodView: View {
 }
 
 #Preview {
-    AddFoodView(foodItem: .constant(FoodItem(name: "Granny Smith Apple", calories: 120)), dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())))
+    AddFoodView(foodItem: .constant(FoodItem(name: "Granny Smith Apple", calories: 120)), dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date()), database: DatabaseManager()))
 }

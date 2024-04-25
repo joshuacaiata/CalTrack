@@ -14,10 +14,13 @@ class DateManagerViewModel: ObservableObject {
     @Published var selectedDayViewModel: DayViewModel
     
     var currentDate: Date { dateManagerModel.currentDate }
+    
+    var database: DatabaseManager
             
-    init(dateManager: DateManager) {
+    init(dateManager: DateManager, database: DatabaseManager) {
         self.dateManagerModel = dateManager
-        self.selectedDayViewModel = DayViewModel(day: dateManager.selectedDay)
+        self.selectedDayViewModel = DayViewModel(day: dateManager.selectedDay, database: database)
+        self.database = database
     }
     
     // Functionality for when user clicks next day
@@ -52,7 +55,7 @@ class DateManagerViewModel: ObservableObject {
         self.dateManagerModel.selectedDay = newDay
         
         // Create a new DayViewModel for the selected day
-        let newDayViewModel = DayViewModel(day: newDay)
+        let newDayViewModel = DayViewModel(day: newDay, database: self.database)
         
         // Update the published selectedDayViewModel to trigger UI updates
         self.selectedDayViewModel = newDayViewModel

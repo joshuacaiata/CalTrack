@@ -35,5 +35,5 @@ struct EntryView: View {
 }
 
 #Preview {
-    EntryView(entry: Entry(id: UUID(), name: "Apple Strudle, Baked, with cheese and ham", consume: true, kcalCount: 100, apple: false))
+    EntryView(entry: Entry(id: UUID(), name: "Apple Strudle, Baked, with cheese and ham", date: Date(), consume: true, kcalCount: 100, apple: false))
 }

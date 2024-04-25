@@ -69,5 +69,5 @@ struct AddEntryView: View {
 }
 
 #Preview {
-    AddEntryView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())))
+    AddEntryView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date()), database: DatabaseManager()))
 }

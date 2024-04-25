@@ -35,6 +35,7 @@ struct AddActivity: View {
          // Create the entry and add it
          let newEntry = Entry(id: UUID(),
                               name: entryText,
+                              date: dateManagerViewModel.currentDate,
                               consume: false,
                               kcalCount: kcalCount,
                               apple: false)
@@ -107,5 +108,5 @@ struct AddActivity: View {
 }
 
 #Preview {
-    AddActivity(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())))
+    AddActivity(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date()), database: DatabaseManager()))
 }

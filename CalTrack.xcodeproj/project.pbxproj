@@ -31,6 +31,7 @@
 		865949402BC44BE6003BD541 /* DayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8659493E2BC44BE6003BD541 /* DayViewModel.swift */; };
 		865949432BC44BFA003BD541 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865949412BC44BFA003BD541 /* PersistenceManager.swift */; };
 		865949442BC44BFA003BD541 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865949422BC44BFA003BD541 /* HealthKitManager.swift */; };
+		866FB4BF2BDAEFC1003B836A /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FB4BE2BDAEFC1003B836A /* DatabaseManager.swift */; };
 		86D3DCB52BCAD73F005F936F /* FoodsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D3DCB42BCAD73F005F936F /* FoodsResponse.swift */; };
 		86D3DCB92BCC9676005F936F /* AddFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D3DCB82BCC9676005F936F /* AddFoodView.swift */; };
 /* End PBXBuildFile section */
@@ -62,6 +63,7 @@
 		8659493E2BC44BE6003BD541 /* DayViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayViewModel.swift; sourceTree = "<group>"; };
 		865949412BC44BFA003BD541 /* PersistenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		865949422BC44BFA003BD541 /* HealthKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		866FB4BE2BDAEFC1003B836A /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		86D3DCB42BCAD73F005F936F /* FoodsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodsResponse.swift; sourceTree = "<group>"; };
 		86D3DCB82BCC9676005F936F /* AddFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -187,6 +189,7 @@
 				8652BFBC2BC9BDC200BBE903 /* FoodDataIntegration.swift */,
 				865949422BC44BFA003BD541 /* HealthKitManager.swift */,
 				865949412BC44BFA003BD541 /* PersistenceManager.swift */,
+				866FB4BE2BDAEFC1003B836A /* DatabaseManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 				8652BFBD2BC9BDC200BBE903 /* FoodDataIntegration.swift in Sources */,
 				865949432BC44BFA003BD541 /* PersistenceManager.swift in Sources */,
 				8652BFB72BC8A0C300BBE903 /* FoodItem.swift in Sources */,
+				866FB4BF2BDAEFC1003B836A /* DatabaseManager.swift in Sources */,
 				8659493F2BC44BE6003BD541 /* DateManagerViewModel.swift in Sources */,
 				86D3DCB52BCAD73F005F936F /* FoodsResponse.swift in Sources */,
 				8652BFB52BC8A0A000BBE903 /* FoodView.swift in Sources */,

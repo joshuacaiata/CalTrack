@@ -24,9 +24,11 @@ struct MainView: View {
             dateManager = DateManager(startingDate: Date())
         }
         
+        let database = DatabaseManager()
+        
         PersistenceManager.shared.saveDateManager(dateManager: dateManager!)
         
-        let dateManagerViewModel = DateManagerViewModel(dateManager: dateManager!)
+        let dateManagerViewModel = DateManagerViewModel(dateManager: dateManager!, database: database)
         dateManagerViewModel.setDay(to: Date())
         
         _dateManagerViewModel = StateObject(wrappedValue: dateManagerViewModel)

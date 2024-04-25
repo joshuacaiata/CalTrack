@@ -15,6 +15,7 @@ import SwiftUI
 struct Entry: Hashable, Codable {
     let id: UUID
     var name: String
+    var date: Date
     var consume: Bool
     var kcalCount: Int
     var apple: Bool
@@ -23,9 +24,12 @@ struct Entry: Hashable, Codable {
         consume ? AppColours.CalTrackNegative : AppColours.CalTrackPositive
     }
     
-    init(id: UUID, name: String, consume: Bool, kcalCount: Int, apple: Bool) {
+    init(id: UUID, name: String, 
+         date: Date, consume: Bool,
+         kcalCount: Int, apple: Bool) {
         self.id = id
         self.name = name
+        self.date = date
         self.consume = consume
         self.kcalCount = kcalCount
         self.apple = apple

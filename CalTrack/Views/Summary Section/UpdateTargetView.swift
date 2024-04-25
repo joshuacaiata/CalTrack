@@ -66,5 +66,5 @@ struct UpdateTargetView: View {
 }
 
 #Preview {
-    UpdateTargetView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date())), isPresented: .constant(true))
+    UpdateTargetView(dateManagerViewModel: DateManagerViewModel(dateManager: DateManager(startingDate: Date()), database: DatabaseManager()), isPresented: .constant(true))
 }

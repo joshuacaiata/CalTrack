@@ -40,7 +40,7 @@ struct EntryList: Codable {
         return total
     }
     
-    // Calculates calories from healthkid
+    // Calculates calories from healthkit
     var healthKitWorkoutCalories: Int {
         var total = 0
         
