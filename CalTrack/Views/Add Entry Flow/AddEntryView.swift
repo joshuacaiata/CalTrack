@@ -12,6 +12,8 @@ struct AddEntryView: View {
     // Observe the entrylist view model to add entries
     @ObservedObject var dateManagerViewModel: DateManagerViewModel
     
+    @Environment(\.colorScheme) var colorScheme
+    
     enum Selection {
         case food, activity
     }
@@ -30,8 +32,8 @@ struct AddEntryView: View {
                         .padding()
                         .contentShape(Rectangle())
                 }
-                .foregroundColor(.black)
-                .background(selection == .food ? AppColours.CalTrackLightBlue : Color.white)
+                .foregroundColor(selection == .food ? .black : (colorScheme == .dark ? .white : .black))
+                .background(selection == .food ? AppColours.CalTrackLightBlue : .clear)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
@@ -48,8 +50,8 @@ struct AddEntryView: View {
                         .padding()
                         .contentShape(Rectangle())
                 }
-                .foregroundColor(.black)
-                .background(selection == .activity ? AppColours.CalTrackLightBlue : Color.white)
+                .foregroundColor(selection == .activity ? .black : (colorScheme == .dark ? .white : .black))
+                .background(selection == .activity ? AppColours.CalTrackLightBlue : .clear)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)

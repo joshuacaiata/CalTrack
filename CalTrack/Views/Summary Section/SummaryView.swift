@@ -77,7 +77,6 @@ struct SummaryView: View {
         .padding(.bottom, 30)
         .sheet(isPresented: $showingUpdateTarget, content: {
             UpdateTargetView(dateManagerViewModel: dateManagerViewModel, isPresented: $showingUpdateTarget)
-                .preferredColorScheme(.light)
         })
     }
 }

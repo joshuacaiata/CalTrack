@@ -16,6 +16,12 @@ struct MainView: View {
     @StateObject var dateManagerViewModel: DateManagerViewModel
     var dayViewModel: DayViewModel { dateManagerViewModel.selectedDayViewModel }
     
+    @Environment(\.colorScheme) var colorScheme
+    
+    var darkColor: Color {
+        colorScheme == .dark ? AppColours.CalTrackNegativeDark : AppColours.CalTrackNegative
+    }
+    
     init() {
         var dateManager: DateManager? = nil
         if let loadedDateManager = PersistenceManager.shared.loadDateManager() {
@@ -53,7 +59,7 @@ struct MainView: View {
                             .font(.largeTitle)
                             .foregroundColor(.white)
                             .padding()
-                            .background(Circle().fill(AppColours.CalTrackNegative))
+                            .background(Circle().fill(darkColor))
                     })
 
                     Spacer()

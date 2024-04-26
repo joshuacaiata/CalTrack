@@ -27,6 +27,7 @@ struct UpdateTargetView: View {
                             .fontWeight(.bold)
                         Text(dateManagerViewModel.selectedDayViewModel.dayModel.netCalories >= 0 ? "kcal remaining" : "over")
                     }
+                    .foregroundStyle(.black)
                 }
                 .padding(.vertical, 50)
                 .padding(.horizontal, 70)
@@ -61,6 +62,7 @@ struct UpdateTargetView: View {
                 Spacer()
             }
             .padding(.top, 75)
+            //.background(colorScheme == .dark ? .black : .white)
         }
     }
 }

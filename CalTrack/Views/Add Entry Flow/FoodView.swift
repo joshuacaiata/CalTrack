@@ -22,6 +22,7 @@ struct FoodView: View {
             
             Spacer()
         }
+        .background(Color(UIColor.systemBackground))
     }
 }
 

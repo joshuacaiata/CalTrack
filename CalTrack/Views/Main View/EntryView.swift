@@ -9,7 +9,19 @@ import SwiftUI
 
 // The view for a single entry
 struct EntryView: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     var entry: Entry
+    
+    var entryColour: Color {
+        if ((colorScheme == .dark) && (entry.consume)) {
+            AppColours.CalTrackNegativeDark
+        } else if (entry.consume) {
+            AppColours.CalTrackNegative
+        } else {
+            AppColours.CalTrackPositive
+        }
+    }
             
     // Creates and styles each entry
     var body: some View {
@@ -24,12 +36,9 @@ struct EntryView: View {
                 Text("kcal")
                     .font(.body)
             }
-            .foregroundColor(entry.calColor)
-            //.padding(.vertical, 20.0)
+            .foregroundColor(entryColour)
             .padding(.horizontal, 10)
         }
-        .background(Color.white)
-        .foregroundColor(.black)
         .padding(.vertical, 20)
     }
 }

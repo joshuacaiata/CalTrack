@@ -14,7 +14,12 @@ struct AddFoodView: View {
     @State private var cals: Int
     @State private var amount: String = "100"
     @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
     @ObservedObject var dateManagerViewModel: DateManagerViewModel
+    
+    var darkColor: Color {
+        colorScheme == .dark ? AppColours.CalTrackNegativeDark : AppColours.CalTrackNegative
+    }
     
     // Modify the constructor to accept a Binding<FoodItem>
     init(foodItem: Binding<FoodItem>, dateManagerViewModel: DateManagerViewModel) {
@@ -71,7 +76,7 @@ struct AddFoodView: View {
                 Text("kcal")
                     .baselineOffset(18)
             }
-            .foregroundStyle(AppColours.CalTrackNegative)
+            .foregroundStyle(darkColor)
             .onAppear {
                 cals = foodItem.calories ?? 0
                 updateCalories(amount)
@@ -107,11 +112,11 @@ struct AddFoodView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                 }
-                .foregroundColor(.black)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(AppColours.CalTrackStroke, lineWidth: 2)
                 )
+                .foregroundColor(colorScheme == .dark ? .white : .black)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.leading, 30)
                 
