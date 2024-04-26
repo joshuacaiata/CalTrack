@@ -57,11 +57,6 @@ class DayViewModel: ObservableObject {
         var updatedInfo = self.dayModel
         updatedInfo.entryList.entries.append(entry)
         self.dayModel = updatedInfo
-        
-        if entry.consume {
-            database.insertEntry(entry: entry)
-            database.printDatabase()
-        }
     }
     
     func deleteEntries(at offsets: IndexSet) {

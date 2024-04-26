@@ -9,20 +9,20 @@ import SwiftUI
 
 // The view for searching the food database
 struct SearchView: View {
-    // Observe the entrylist view model to add entries
     @ObservedObject var dateManagerViewModel: DateManagerViewModel
     
     @State private var foodText: String = ""
-    @State private var foodItems: [FoodItem] = []
+    @State private var foodItems: [FoodItem]
     @State private var isLoading: Bool = false
     @State private var errorMessage: String?
     @State private var showingAddFoodView = false
     @State private var selectedFoodItem: FoodItem = FoodItem(name: "Apple", calories: 0)
     
     private var foodDataIntegration = FoodDataIntegration()
-    
+
     init(dateManagerViewModel: DateManagerViewModel) {
         self.dateManagerViewModel = dateManagerViewModel
+        self._foodItems = State(initialValue: dateManagerViewModel.database.fetchRecommendedFoods())
     }
     
     // Show the AddFoodView view
@@ -42,16 +42,27 @@ struct SearchView: View {
                 .onChange(of: foodText) { oldValue, newValue in
                     Task {
                         isLoading = true
-                        do {
-                            let results = try await foodDataIntegration.fetchFoods(query: newValue)
-                            foodItems = results
-                        } catch {
-                            print("Error fetching foods: \(error)")
-                            foodItems = []
+                        if newValue.isEmpty {
+                            // Fetch recommended foods if search text is empty
+                            foodItems = dateManagerViewModel.database.fetchRecommendedFoods()
+                            isLoading = false
+                        } else {
+                            do {
+                                let results = try await foodDataIntegration.fetchFoods(query: newValue)
+                                foodItems = results
+                                if results.isEmpty {
+                                    // Fetch recommended foods if no results were found
+                                    foodItems = dateManagerViewModel.database.fetchRecommendedFoods()
+                                }
+                            } catch {
+                                print("Error fetching foods: \(error)")
+                                foodItems = dateManagerViewModel.database.fetchRecommendedFoods()
+                            }
+                            isLoading = false
                         }
-                        isLoading = false
                     }
                 }
+
                 
            
             Spacer()

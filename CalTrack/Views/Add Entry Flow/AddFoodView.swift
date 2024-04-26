@@ -32,6 +32,13 @@ struct AddFoodView: View {
         }
     }
     
+    func getCurrentTime() -> Int {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.hour, .minute], from: Date())
+        return components.hour! * 100 + components.minute!
+    }
+
+    
     // Adds entry when confirm is clicked
     func addEntry() {
         let newEntry = Entry(id: UUID(), name: foodItem.name, 
@@ -39,6 +46,11 @@ struct AddFoodView: View {
                              kcalCount: cals, apple: false)
         dateManagerViewModel.selectedDayViewModel.addEntry(entry: newEntry)
         dateManagerViewModel.saveDate()
+        
+        if newEntry.consume {
+            dateManagerViewModel.database.insertEntry(entry: newEntry, timeOfDay: getCurrentTime(), caloriesPer100g: foodItem.calories ?? 0)
+            dateManagerViewModel.database.printDatabase()
+        }
     }
 
     var body: some View {
