@@ -7,5 +7,5 @@ target 'CalTrack' do
 
   # Pods for CalTrack
   pod 'SQLite.swift', '~> 0.13.0'
-
+  pod 'AWSSDK-iOS', '~> 2.23.3'
 end

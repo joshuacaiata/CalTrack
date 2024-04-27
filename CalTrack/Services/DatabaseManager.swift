@@ -29,7 +29,6 @@ class DatabaseManager {
     
     func closeDatabase() {
         if db != nil {
-            print("Closing database")
             sqlite3_close(db)
         }
     }

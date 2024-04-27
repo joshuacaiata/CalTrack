@@ -66,6 +66,7 @@
 		866FB4BE2BDAEFC1003B836A /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		86D3DCB42BCAD73F005F936F /* FoodsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodsResponse.swift; sourceTree = "<group>"; };
 		86D3DCB82BCC9676005F936F /* AddFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodView.swift; sourceTree = "<group>"; };
+		D84C812A2BDD56C200DE1B7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +131,7 @@
 		862273182B7C0D2700A8ED16 /* CalTrack */ = {
 			isa = PBXGroup;
 			children = (
+				D84C812A2BDD56C200DE1B7A /* Info.plist */,
 				863059712B8EB9C500677B0D /* CalTrack.entitlements */,
 				86B711042B8652FF003943F2 /* Services */,
 				862273332B7D5B1400A8ED16 /* Views */,
@@ -210,6 +212,8 @@
 			dependencies = (
 			);
 			name = CalTrack;
+			packageProductDependencies = (
+			);
 			productName = CalTrack;
 			productReference = 862273162B7C0D2700A8ED16 /* CalTrack.app */;
 			productType = "com.apple.product-type.application";
@@ -238,6 +242,8 @@
 				Base,
 			);
 			mainGroup = 8622730D2B7C0D2700A8ED16;
+			packageReferences = (
+			);
 			productRefGroup = 862273172B7C0D2700A8ED16 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -423,9 +429,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CalTrack/Preview Content\"";
-				DEVELOPMENT_TEAM = 82PX42ZU93;
+				DEVELOPMENT_TEAM = 3D89PQQ63D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CalTrack/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Your workout data is used to give calorie workout credit in the app.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -454,9 +461,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CalTrack/Preview Content\"";
-				DEVELOPMENT_TEAM = 82PX42ZU93;
+				DEVELOPMENT_TEAM = 3D89PQQ63D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CalTrack/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Your workout data is used to give calorie workout credit in the app.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

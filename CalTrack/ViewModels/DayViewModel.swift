@@ -72,6 +72,5 @@ class DayViewModel: ObservableObject {
         idsToDelete.forEach { id in
             database.deleteEntry(withId: id)
         }
-        database.printDatabase()
     }
 }

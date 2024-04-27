@@ -9,8 +9,7 @@ import Foundation
 
 // Call the food data API
 class FoodDataIntegration {
-    let apiKey = ProcessInfo.processInfo.environment["API_KEY"]
-    
+    let apiKey = "Oag0yaFePfjV3b8iAMhYmQmtXvotKBig9rnzoiPA"
     
     // Fetch the foods given a query string
     func fetchFoods(query: String) async throws -> [FoodItem] {

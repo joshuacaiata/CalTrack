@@ -54,7 +54,6 @@ struct AddFoodView: View {
         
         if newEntry.consume {
             dateManagerViewModel.database.insertEntry(entry: newEntry, timeOfDay: getCurrentTime(), caloriesPer100g: foodItem.calories ?? 0)
-            dateManagerViewModel.database.printDatabase()
         }
     }
 
